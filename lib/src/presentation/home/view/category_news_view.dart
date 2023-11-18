@@ -31,7 +31,10 @@ class _CategoryNewsViewState extends State<CategoryNewsView> {
   void initState() {
     controller = ScrollController();
     controller.addListener(() {
-      if (controller.offset >= controller.position.maxScrollExtent) {
+      print(
+          "SSSSS: offset: ${controller.offset} >= ${controller.position.maxScrollExtent - 500}");
+      if (controller.offset >= controller.position.maxScrollExtent - 500) {
+        print("SSSSS: offset: getMoreByHeadlines");
         context.read<CategoryNewsBloc>().add(
               CategoryNewsGetMoreByHeadlines(
                 category: widget.category.category,

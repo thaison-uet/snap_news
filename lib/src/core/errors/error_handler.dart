@@ -1,7 +1,11 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:news_app/src/core/core.dart';
+import 'package:news_app/src/data/datasources/network/network_local_data_source.dart';
 import 'package:news_app/src/data/models/error_model.dart';
+import 'package:news_app/src/utils/app_util.dart';
+import 'package:news_app/src/utils/constants/common_constants.dart';
 
 const NOT_IMPLEMENTED = "Not Implemented";
 const REQUEST_CANCELLED = "Request Cancelled";
@@ -77,6 +81,7 @@ class ResponseException {
       try {
         ResponseException responseException;
         if (error is DioError) {
+          print("SSSSS: error: ${error.error})");
           switch (error.type) {
             case DioErrorType.cancel:
               responseException = ResponseException.error(
@@ -118,6 +123,14 @@ class ResponseException {
                 type: EResponseException.SENDTIMEOUT,
               );
               break;
+          }
+          if (error.error == CommonConstants.apiKeyLimition) {
+            if (!AppUtil.instance.isJustUpdatedApiKey) {
+              var networkLocalDataSource =
+                  NetworkLocalDataSourceImpl(StorageHelper());
+              networkLocalDataSource.updateApiKey();
+              AppUtil.instance.isJustUpdatedApiKey = true;
+            }
           }
         } else if (error is SocketException) {
           responseException = ResponseException.error(

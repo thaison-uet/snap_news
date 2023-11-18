@@ -24,6 +24,7 @@ class CategoryNewsBloc extends Bloc<CategoryNewsEvent, CategoryNewsState> {
 
   void _onCategoryNewsGetByHeadlines(
       CategoryNewsGetByHeadlines event, Emitter<CategoryNewsState> emit) async {
+    print("SSSSS: _onCategoryNewsGetByHeadlines");
     emit(state.copyWith(status: HomeBlocStatus.loading));
 
     await headlinesCase(
@@ -63,6 +64,7 @@ class CategoryNewsBloc extends Bloc<CategoryNewsEvent, CategoryNewsState> {
 
   void _onCategoryNewsGetByEverything(CategoryNewsGetByEverything event,
       Emitter<CategoryNewsState> emit) async {
+    print("SSSSS: _onCategoryNewsGetByEverything");
     emit(state.copyWith(status: HomeBlocStatus.loading));
 
     await recommendationCase(
@@ -101,6 +103,7 @@ class CategoryNewsBloc extends Bloc<CategoryNewsEvent, CategoryNewsState> {
 
   void _onCategoryNewsGetMoreByHeadlines(CategoryNewsGetMoreByHeadlines event,
       Emitter<CategoryNewsState> emit) async {
+    print("SSSSS: _onCategoryNewsGetMoreByHeadlines");
     if (state.hasReachedMax) return;
 
     if (state.isFetching) return;
@@ -145,6 +148,7 @@ class CategoryNewsBloc extends Bloc<CategoryNewsEvent, CategoryNewsState> {
 
   void _onCategoryNewsGetMoreByEverything(CategoryNewsGetMoreByEverything event,
       Emitter<CategoryNewsState> emit) async {
+    print("SSSSS: _onCategoryNewsGetMoreByEverything");
     if (state.hasReachedMax) return;
     if (state.isFetching) return;
 

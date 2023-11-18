@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:news_app/src/data/datasources/network/network_local_data_source.dart';
 import 'package:news_app/src/domain/usecases/bookmarks/remove_bookmark_case.dart';
 
 import 'core/core.dart';
@@ -65,6 +66,11 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<BookmarkLocalDataSource>(
     () => BookmarkLocalDataSourceImpl(
+      sl(),
+    ),
+  );
+  sl.registerLazySingleton<NetworkLocalDataSource>(
+    () => NetworkLocalDataSourceImpl(
       sl(),
     ),
   );

@@ -253,15 +253,17 @@ class _HomeViewState extends State<HomeView> {
                             margin: EdgeInsets.only(top: 8.h),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.r),
-                              color: Theme.of(context).brightness ==
-                                      Brightness.dark
-                                  ? colorsBlack
-                                  : colorWhite,
+                              // color: Theme.of(context).brightness ==
+                              //         Brightness.dark
+                              //     ? colorsBlack
+                              //     : colorWhite,
+                              color: transparent,
                               border: Border.all(
-                                color: Theme.of(context).brightness ==
-                                        Brightness.dark
-                                    ? Colors.grey.withOpacity(0.1)
-                                    : borderGray,
+                                // color: Theme.of(context).brightness ==
+                                //         Brightness.dark
+                                //     ? Colors.grey.withOpacity(0.1)
+                                //     : borderGray,
+                                color: transparent,
                               ),
                             ),
                             child: Row(
@@ -457,11 +459,11 @@ class _HomeViewState extends State<HomeView> {
                                   : colorWhite,
                               borderRadius: BorderRadius.circular(8.r),
                               border: Border.all(
-                                color: Theme.of(context).brightness ==
-                                        Brightness.dark
-                                    ? colorsBlackGray
-                                    : borderGray,
-                              ),
+                                  // color: Theme.of(context).brightness ==
+                                  //         Brightness.dark
+                                  //     ? colorsBlackGray
+                                  //     : borderGray,
+                                  color: transparent),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,

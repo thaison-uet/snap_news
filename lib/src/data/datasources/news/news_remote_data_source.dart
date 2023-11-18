@@ -1,4 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/widgets.dart';
+import 'package:news_app/src/data/datasources/network/network_local_data_source.dart';
+import 'package:news_app/src/utils/app_util.dart';
 
 import '../../../core/core.dart';
 import '../../models/news_model.dart';
@@ -15,6 +18,7 @@ abstract class NewsRemoteDataSource {
 
 class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
   final NetworkContainer http;
+  String? newsApiKey;
 
   NewsRemoteDataSourceImpl({
     required this.http,
@@ -28,6 +32,16 @@ class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
     int? limit,
     int? page,
   }) async {
+    var networkLocalDataSource = NetworkLocalDataSourceImpl(StorageHelper());
+    AppUtil.instance.apiKey = await networkLocalDataSource.readApiKey();
+    newsApiKey = AppUtil.instance.apiKey;
+    if (newsApiKey == null) {
+      networkLocalDataSource.writeApiKey(listApiKey[0]);
+      AppUtil.instance.apiKey = await networkLocalDataSource.readApiKey();
+      newsApiKey = AppUtil.instance.apiKey;
+    }
+    print("SSSSS: newsApiKey = $newsApiKey");
+
     limit ??= 1;
     page ??= 1;
     category ??= "";
@@ -35,7 +49,7 @@ class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
     if (isHeadlines) {
       final response = await http.method(
         path:
-            "top-headlines?language=$language&category=$category&q=$query&pageSize=$limit&page=$page&apiKey=$key",
+            "top-headlines?language=$language&category=$category&q=$query&pageSize=$limit&page=$page&apiKey=$newsApiKey",
         methodType: MethodType.get,
       );
 
@@ -47,7 +61,7 @@ class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
     } else {
       final response = await http.method(
         path:
-            "everything?q=$query&language=$language&pageSize=$limit&page=$page&apiKey=$key",
+            "everything?q=$query&language=$language&pageSize=$limit&page=$page&apiKey=$newsApiKey",
         methodType: MethodType.get,
       );
 
