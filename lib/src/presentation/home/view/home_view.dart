@@ -527,7 +527,7 @@ class _HomeViewState extends State<HomeView> {
                                   : colorWhite,
                               borderRadius: BorderRadius.circular(8.r),
                               border: Border.all(
-                                  width: 1,
+                                  width: 0.7,
                                   color: Theme.of(context).brightness ==
                                           Brightness.dark
                                       ? colorsBlackGray
