@@ -354,22 +354,22 @@ class _HomeViewState extends State<HomeView> {
                                             children: [
                                               Row(
                                                 children: [
-                                                  CircleAvatar(
-                                                    radius: 10.r,
-                                                    backgroundColor:
-                                                        colorPrimary,
-                                                    backgroundImage:
-                                                        index + 1 < 5
-                                                            ? AssetImage(
-                                                                "assets/profile/${index + 1}.jpg",
-                                                              )
-                                                            : const AssetImage(
-                                                                "assets/profile/5.jpg",
-                                                              ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 7.w,
-                                                  ),
+                                                  // CircleAvatar(
+                                                  //   radius: 10.r,
+                                                  //   backgroundColor:
+                                                  //       colorPrimary,
+                                                  //   backgroundImage:
+                                                  //       index + 1 < 5
+                                                  //           ? AssetImage(
+                                                  //               "assets/profile/${index + 1}.jpg",
+                                                  //             )
+                                                  //           : const AssetImage(
+                                                  //               "assets/profile/5.jpg",
+                                                  //             ),
+                                                  // ),
+                                                  // SizedBox(
+                                                  //   width: 7.w,
+                                                  // ),
                                                   Text(
                                                     recommendation[index]
                                                         .source
@@ -660,22 +660,22 @@ class _HomeViewState extends State<HomeView> {
                                       children: [
                                         Row(
                                           children: [
-                                            CircleAvatar(
-                                              radius: 10.r,
-                                              backgroundColor: colorPrimary,
-                                              backgroundImage: index + 1 < 5
-                                                  ? AssetImage(
-                                                      "assets/profile/${index + 1}.jpg",
-                                                    )
-                                                  : const AssetImage(
-                                                      "assets/profile/5.jpg",
-                                                    ),
-                                            ),
+                                            // CircleAvatar(
+                                            //   radius: 10.r,
+                                            //   backgroundColor: colorPrimary,
+                                            //   backgroundImage: index + 1 < 5
+                                            //       ? AssetImage(
+                                            //           "assets/profile/${index + 1}.jpg",
+                                            //         )
+                                            //       : const AssetImage(
+                                            //           "assets/profile/5.jpg",
+                                            //         ),
+                                            // ),
+                                            // SizedBox(
+                                            //   width: 7.w,
+                                            // ),
                                             SizedBox(
-                                              width: 7.w,
-                                            ),
-                                            SizedBox(
-                                              width: 70.w,
+                                              width: 110.w,
                                               child: Text(
                                                 articles[index].source.name,
                                                 overflow: TextOverflow.ellipsis,
@@ -687,7 +687,7 @@ class _HomeViewState extends State<HomeView> {
                                           ],
                                         ),
                                         SizedBox(
-                                          width: 60.w,
+                                          width: 50.w,
                                           child: Text(
                                             timeago.format(
                                               articles[index].publishedAt,
@@ -970,20 +970,20 @@ class _HomeViewState extends State<HomeView> {
                                   children: [
                                     Row(
                                       children: [
-                                        CircleAvatar(
-                                          radius: 12.r,
-                                          backgroundColor: colorPrimary,
-                                          backgroundImage: index + 1 < 5
-                                              ? AssetImage(
-                                                  "assets/profile/${index + 1}.jpg",
-                                                )
-                                              : const AssetImage(
-                                                  "assets/profile/5.jpg",
-                                                ),
-                                        ),
-                                        SizedBox(
-                                          width: 7.w,
-                                        ),
+                                        // CircleAvatar(
+                                        //   radius: 12.r,
+                                        //   backgroundColor: colorPrimary,
+                                        //   backgroundImage: index + 1 < 5
+                                        //       ? AssetImage(
+                                        //           "assets/profile/${index + 1}.jpg",
+                                        //         )
+                                        //       : const AssetImage(
+                                        //           "assets/profile/5.jpg",
+                                        //         ),
+                                        // ),
+                                        // SizedBox(
+                                        //   width: 7.w,
+                                        // ),
                                         Text(trending[index].source.name)
                                             .boldSized(10)
                                             .colors(colorTextGray)
