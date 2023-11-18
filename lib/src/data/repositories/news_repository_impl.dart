@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:news_app/src/utils/app_util.dart';
 
 import '../../core/core.dart';
 import '../../domain/domain.dart';
@@ -19,9 +20,9 @@ class NewsRepositoryImpl implements NewsRepository {
       try {
         final remote = await remoteSource.getNewGlobal(
           isHeadlines: false,
-          query: query ?? "movie",
+          query: query ?? AppUtil.instance.userRecommendationKeySearch,
           page: page ?? 1,
-          limit: limit ?? 5,
+          limit: limit ?? 10,
         );
         await localSource.cacheRecommendation(remote);
         return Right(remote.toEntity());

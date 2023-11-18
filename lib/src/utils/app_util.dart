@@ -3,6 +3,7 @@ class AppUtil {
 
   String? apiKey;
   bool isJustUpdatedApiKey = false;
+  String userRecommendationKeySearch = "movie";
 
   static final AppUtil _instance = AppUtil._privateConstructor();
 

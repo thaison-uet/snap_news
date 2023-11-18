@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:news_app/src/core/components/component_skeleton.dart';
 import 'package:news_app/src/core/core.dart';
+import 'package:news_app/src/domain/entitites/category_type.dart';
 import 'package:news_app/src/presentation/home/widget/hot_skeleton_widget.dart';
 import 'package:news_app/src/utils/constants/common_constants.dart';
 import 'package:shimmer/shimmer.dart';
@@ -565,53 +566,53 @@ class _HomeViewState extends State<HomeView> {
                                                 height: 100.h,
                                                 CommonConstants.emptyImagePath,
                                                 fit: BoxFit.contain),
-                                        Positioned(
-                                          top: 9.h,
-                                          right: 10.w,
-                                          child: Container(
-                                            width: 35.w,
-                                            height: 15.h,
-                                            decoration: BoxDecoration(
-                                              color: Guide.isDark(context)
-                                                  ? colorsBlack
-                                                  : colorWhite,
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                8.r,
-                                              ),
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                horizontal: 5.w,
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  const Text("Hot")
-                                                      .semiBoldSizedItalic(9)
-                                                      .colors(
-                                                        Guide.isDark(context)
-                                                            ? darkThemeText
-                                                            : colorsBlack,
-                                                      ),
+                                        // Positioned(
+                                        //   top: 9.h,
+                                        //   right: 10.w,
+                                        //   child: Container(
+                                        //     width: 35.w,
+                                        //     height: 15.h,
+                                        //     decoration: BoxDecoration(
+                                        //       color: Guide.isDark(context)
+                                        //           ? colorsBlack
+                                        //           : colorWhite,
+                                        //       borderRadius:
+                                        //           BorderRadius.circular(
+                                        //         8.r,
+                                        //       ),
+                                        //     ),
+                                        //     child: Padding(
+                                        //       padding: EdgeInsets.symmetric(
+                                        //         horizontal: 5.w,
+                                        //       ),
+                                        //       child: Row(
+                                        //         mainAxisAlignment:
+                                        //             MainAxisAlignment
+                                        //                 .spaceBetween,
+                                        //         children: [
+                                        //           const Text("Hot")
+                                        //               .semiBoldSizedItalic(9)
+                                        //               .colors(
+                                        //                 Guide.isDark(context)
+                                        //                     ? darkThemeText
+                                        //                     : colorsBlack,
+                                        //               ),
 
-                                                  Icon(
-                                                    Icons.star,
-                                                    size: 9.w,
-                                                    color: colorStar,
-                                                  ),
-                                                  // Image.asset(
-                                                  //   "assets/icons/icons_fire.png",
-                                                  //   width: 9.4.w,
-                                                  //   height: 8.5.h,
-                                                  // )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        )
+                                        //           Icon(
+                                        //             Icons.star,
+                                        //             size: 9.w,
+                                        //             color: colorStar,
+                                        //           ),
+                                        //           // Image.asset(
+                                        //           //   "assets/icons/icons_fire.png",
+                                        //           //   width: 9.4.w,
+                                        //           //   height: 8.5.h,
+                                        //           // )
+                                        //         ],
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // )
                                       ],
                                     ),
                                   ),
@@ -622,7 +623,7 @@ class _HomeViewState extends State<HomeView> {
                                     vertical: 8.h,
                                   ),
                                   child: const Text(
-                                    "BUSINESS", // TODO: sondt
+                                    "HOT", // TODO: sondt
                                   ).boldSized(10).colors(textGray),
                                 ),
                                 Padding(
@@ -720,13 +721,13 @@ class _HomeViewState extends State<HomeView> {
 
   Widget _categorySliderWidget() {
     List category = [
-      'business',
-      'entertainment',
-      'general',
-      'health',
-      'science',
-      'sports',
-      'technology'
+      Categorytype.business.name,
+      Categorytype.entertainment.name,
+      Categorytype.general.name,
+      Categorytype.health.name,
+      Categorytype.science.name,
+      Categorytype.sports.name,
+      Categorytype.technology.name
     ];
     return BlocBuilder<HomeNewsBloc, HomeNewsState>(
       builder: (_, state) {

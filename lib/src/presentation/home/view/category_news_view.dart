@@ -147,11 +147,7 @@ class _CategoryNewsViewState extends State<CategoryNewsView> {
                     isLoading = false;
                   });
                   List<NewsArticleEntities> data = [];
-                  if (state.status == HomeBlocStatus.loaded) {
-                    data += state.article;
-                  } else if (state.status == HomeBlocStatus.failure) {
-                    data = state.article;
-                  }
+                  data = state.article;
                   return ListView.builder(
                     controller: controller,
                     itemCount:
