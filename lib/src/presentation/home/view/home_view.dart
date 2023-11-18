@@ -31,6 +31,13 @@ class _HomeViewState extends State<HomeView> {
   final List<NewsEntities> data = [];
   late PageController controller;
   int _cIndex = 0;
+  List<String> homeTitles = [
+    "News time, dive in!",
+    "What's breaking, Shin?",
+    "Read the latest buzz",
+    "News for you, Shin",
+    "Breaking news alert!"
+  ];
 
   @override
   void initState() {
@@ -55,16 +62,15 @@ class _HomeViewState extends State<HomeView> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Home",
-            )
-                .blackSized(26)
+            Text(homeTitles[Random().nextInt(homeTitles.length)])
+                .blackSized(23)
                 .colors(Guide.isDark(context) ? darkThemeText : colorsBlack),
+            const SizedBox(height: 4),
             Text(
               DateFormat.yMMMMEEEEd().format(
                 DateTime.now(),
               ),
-            ).boldSized(10).colors(colorTextGray),
+            ).boldSized(12).colors(colorTextGray),
           ],
         ),
         actions: [
@@ -113,11 +119,13 @@ class _HomeViewState extends State<HomeView> {
                 colors: Guide.isDark(context)
                     ? [
                         colorsBlack,
-                        colorsBlackGray,
+                        // colorsBlackGray,
+                        colorsBlack
                       ]
                     : [
                         colorWhite,
-                        colorGray,
+                        // colorGray,
+                        colorWhite
                       ],
                 // stops: [],
               ),
@@ -128,15 +136,17 @@ class _HomeViewState extends State<HomeView> {
                 children: [
                   SizedBox(height: 20.h),
                   _sliderNewsWidget(),
-                  SizedBox(height: 20.h),
-                  _categorySliderWidget(),
-                  SizedBox(height: 20.h),
+                  SizedBox(height: 25.h),
+                  // _categorySliderWidget(),
+                  // SizedBox(height: 20.h),
+                  _hotTextWidget(),
+                  SizedBox(height: 10.h),
                   _hotNewsWidget(),
-                  SizedBox(height: 20.h),
+                  SizedBox(height: 25.h),
                   _recommendationTextWidget(),
                   SizedBox(height: 10.h),
                   _recommendationNews(),
-                  SizedBox(height: 20.h),
+                  SizedBox(height: 25.h),
                 ],
               ),
             ),
@@ -249,8 +259,8 @@ class _HomeViewState extends State<HomeView> {
                             arguments: recommendation[index],
                           ),
                           child: Container(
-                            height: 100.h,
-                            margin: EdgeInsets.only(top: 8.h),
+                            height: 85.h,
+                            margin: EdgeInsets.only(top: 10.h, bottom: 10.h),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.r),
                               // color: Theme.of(context).brightness ==
@@ -271,8 +281,8 @@ class _HomeViewState extends State<HomeView> {
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(10.r),
                                   child: SizedBox(
-                                    width: 115.w,
-                                    height: 100.h,
+                                    width: 100.w,
+                                    height: 85.h,
                                     child: recommendation[index]
                                             .urlToImage
                                             .isNotEmpty
@@ -296,84 +306,97 @@ class _HomeViewState extends State<HomeView> {
                                             fit: BoxFit.contain),
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 10.w,
-                                    vertical: 8.h,
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: 220.w,
-                                        child: Text(
-                                          recommendation[index].title,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ).boldSized(14).colors(
-                                            Guide.isDark(context)
-                                                ? darkThemeText
-                                                : colorsBlack),
-                                      ),
-                                      SizedBox(
-                                        width: 220.w,
-                                        child: Text(
-                                          recommendation[index].description,
-                                          maxLines: 3,
-                                          textAlign: TextAlign.justify,
-                                          overflow: TextOverflow.ellipsis,
-                                        ).normalSized(12).colors(
+                                Expanded(
+                                  child: Container(
+                                    // padding: EdgeInsets.symmetric(
+                                    //   horizontal: 10.w,
+                                    //   vertical: 8.h,
+                                    // ),
+                                    padding: EdgeInsets.fromLTRB(
+                                        14.w, 8.h, 0.w, 8.h),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          // width: 220.w,
+                                          width: double.infinity,
+                                          child: Text(
+                                            recommendation[index].title,
+                                            maxLines: 3,
+                                            overflow: TextOverflow.ellipsis,
+                                          ).boldSized(14).colors(
                                               Guide.isDark(context)
                                                   ? darkThemeText
-                                                  : colorsBlack,
-                                            ),
-                                      ),
-                                      SizedBox(
-                                        width: 210.w,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                CircleAvatar(
-                                                  radius: 10.r,
-                                                  backgroundColor: colorPrimary,
-                                                  backgroundImage: index + 1 < 5
-                                                      ? AssetImage(
-                                                          "assets/profile/${index + 1}.jpg",
-                                                        )
-                                                      : const AssetImage(
-                                                          "assets/profile/5.jpg",
-                                                        ),
-                                                ),
-                                                SizedBox(
-                                                  width: 7.w,
-                                                ),
-                                                Text(
-                                                  recommendation[index]
-                                                      .source
-                                                      .name,
-                                                )
-                                                    .boldSized(10)
-                                                    .colors(colorTextGray)
-                                              ],
-                                            ),
-                                            Text(
-                                              timeago.format(
-                                                recommendation[index]
-                                                    .publishedAt,
-                                              ),
-                                            )
-                                                .boldSized(10)
-                                                .colors(colorTextGray),
-                                          ],
+                                                  : colorsBlack),
                                         ),
-                                      ),
-                                    ],
+                                        // SizedBox(
+                                        //   width: 220.w,
+                                        //   child: Text(
+                                        //     recommendation[index].description,
+                                        //     maxLines: 3,
+                                        //     textAlign: TextAlign.justify,
+                                        //     overflow: TextOverflow.ellipsis,
+                                        //   ).normalSized(12).colors(
+                                        //         Guide.isDark(context)
+                                        //             ? darkThemeText
+                                        //             : colorsBlack,
+                                        //       ),
+                                        // ),
+                                        SizedBox(
+                                          // width: 220.w,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  CircleAvatar(
+                                                    radius: 10.r,
+                                                    backgroundColor:
+                                                        colorPrimary,
+                                                    backgroundImage:
+                                                        index + 1 < 5
+                                                            ? AssetImage(
+                                                                "assets/profile/${index + 1}.jpg",
+                                                              )
+                                                            : const AssetImage(
+                                                                "assets/profile/5.jpg",
+                                                              ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 7.w,
+                                                  ),
+                                                  Text(
+                                                    recommendation[index]
+                                                        .source
+                                                        .name,
+                                                  )
+                                                      .boldSized(10)
+                                                      .colors(colorTextGray)
+                                                ],
+                                              ),
+                                              Expanded(
+                                                child: Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: Text(
+                                                    timeago.format(
+                                                      recommendation[index]
+                                                          .publishedAt,
+                                                    ),
+                                                  )
+                                                      .boldSized(10)
+                                                      .colors(colorTextGray),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
@@ -392,6 +415,51 @@ class _HomeViewState extends State<HomeView> {
         return Container(
           height: 100.h,
         );
+      },
+    );
+  }
+
+  Widget _hotTextWidget() {
+    return BlocBuilder<HomeNewsBloc, HomeNewsState>(
+      builder: (_, state) {
+        return state.statusRecommendation == HomeBlocStatus.loading
+            ? Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: Shimmer.fromColors(
+                  baseColor:
+                      Guide.isDark(context) ? Colors.white24 : Colors.black,
+                  highlightColor: darkThemeText,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Skeleton(width: 80.w),
+                      Skeleton(width: 80.w),
+                    ],
+                  ),
+                ),
+              )
+            : Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Text("Hot News").boldSized(16).colors(
+                            Guide.isDark(context)
+                                ? darkThemeText
+                                : colorsBlack),
+                        SizedBox(width: 4.w),
+                        Icon(
+                          Icons.star,
+                          size: 14.w,
+                          color: colorStar,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
       },
     );
   }
@@ -451,7 +519,7 @@ class _HomeViewState extends State<HomeView> {
                           ),
                           child: Container(
                             width: 200.w,
-                            height: 208.h,
+                            height: 215.h,
                             margin: EdgeInsets.only(right: 6.w),
                             decoration: BoxDecoration(
                               color: Guide.isDark(context)
@@ -459,11 +527,11 @@ class _HomeViewState extends State<HomeView> {
                                   : colorWhite,
                               borderRadius: BorderRadius.circular(8.r),
                               border: Border.all(
-                                  // color: Theme.of(context).brightness ==
-                                  //         Brightness.dark
-                                  //     ? colorsBlackGray
-                                  //     : borderGray,
-                                  color: transparent),
+                                  width: 1,
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? colorsBlackGray
+                                      : borderGray),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -532,8 +600,7 @@ class _HomeViewState extends State<HomeView> {
                                                   Icon(
                                                     Icons.star,
                                                     size: 9.w,
-                                                    color:
-                                                        Colors.orange.shade500,
+                                                    color: colorStar,
                                                   ),
                                                   // Image.asset(
                                                   //   "assets/icons/icons_fire.png",
@@ -576,6 +643,7 @@ class _HomeViewState extends State<HomeView> {
                                         ),
                                   ),
                                 ),
+                                SizedBox(height: 8.h),
                                 Padding(
                                   padding: EdgeInsets.only(
                                     left: 10.w,
@@ -882,12 +950,12 @@ class _HomeViewState extends State<HomeView> {
                                       children: [
                                         Icon(
                                           Icons.remove_red_eye_outlined,
-                                          size: 24.h,
-                                          color: colorPrimary,
+                                          size: 20.h,
+                                          color: colorTextGray,
                                         ),
-                                        Text("${Random().nextInt(999)} K")
-                                            .boldSized(11)
-                                            .colors(colorPrimary),
+                                        Text("${Random().nextInt(299)} K")
+                                            .boldSized(10)
+                                            .colors(colorTextGray),
                                       ],
                                     )
                                   ],
