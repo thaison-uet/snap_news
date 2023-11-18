@@ -448,8 +448,8 @@ class _HomeViewState extends State<HomeView> {
                             right: 7.w,
                           ),
                           child: Container(
-                            height: 202.h,
-                            width: 184.w,
+                            width: 200.w,
+                            height: 208.h,
                             margin: EdgeInsets.only(right: 6.w),
                             decoration: BoxDecoration(
                               color: Guide.isDark(context)
@@ -553,7 +553,7 @@ class _HomeViewState extends State<HomeView> {
                                     vertical: 8.h,
                                   ),
                                   child: const Text(
-                                    "BUSINESS",
+                                    "BUSINESS", // TODO: sondt
                                   ).boldSized(10).colors(textGray),
                                 ),
                                 Padding(
