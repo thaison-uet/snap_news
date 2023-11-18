@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:news_app/src/core/components/component_skeleton.dart';
 import 'package:news_app/src/core/core.dart';
 import 'package:news_app/src/presentation/home/widget/hot_skeleton_widget.dart';
+import 'package:news_app/src/utils/constants/common_constants.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -270,18 +271,27 @@ class _HomeViewState extends State<HomeView> {
                                   child: SizedBox(
                                     width: 115.w,
                                     height: 100.h,
-                                    child: CachedNetworkImage(
-                                      imageUrl:
-                                          recommendation[index].urlToImage,
-                                      imageBuilder: (c, image) => Container(
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            image: image,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                    child: recommendation[index]
+                                            .urlToImage
+                                            .isNotEmpty
+                                        ? CachedNetworkImage(
+                                            imageUrl: recommendation[index]
+                                                .urlToImage,
+                                            imageBuilder: (c, image) =>
+                                                Container(
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: image,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        : Image.asset(
+                                            width: 115.w,
+                                            height: 100.h,
+                                            CommonConstants.emptyImagePath,
+                                            fit: BoxFit.contain),
                                   ),
                                 ),
                                 Padding(
@@ -466,21 +476,25 @@ class _HomeViewState extends State<HomeView> {
                                     height: 100.h,
                                     child: Stack(
                                       children: [
-                                        CachedNetworkImage(
-                                          imageUrl: articles[index]
-                                                  .urlToImage
-                                                  .isNotEmpty
-                                              ? articles[index].urlToImage
-                                              : "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/310px-Placeholder_view_vector.svg.png",
-                                          imageBuilder: (c, image) => Container(
-                                            decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                image: image,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
+                                        articles[index].urlToImage.isNotEmpty
+                                            ? CachedNetworkImage(
+                                                imageUrl:
+                                                    articles[index].urlToImage,
+                                                imageBuilder: (c, image) =>
+                                                    Container(
+                                                  decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                      image: image,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            : Image.asset(
+                                                width: double.maxFinite,
+                                                height: 100.h,
+                                                CommonConstants.emptyImagePath,
+                                                fit: BoxFit.contain),
                                         Positioned(
                                           top: 9.h,
                                           right: 10.w,
@@ -779,6 +793,7 @@ class _HomeViewState extends State<HomeView> {
                 });
               },
               itemBuilder: (_, index) {
+                var imageUrl = trending[index].urlToImage;
                 return GestureDetector(
                   onTap: () => Guide.to(
                     name: detail,
@@ -788,27 +803,31 @@ class _HomeViewState extends State<HomeView> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(15.r),
-                        child: CachedNetworkImage(
-                          imageUrl: trending[index].urlToImage,
-                          imageBuilder: (c, image) => Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: image,
-                                fit: BoxFit.cover,
-                                colorFilter: Theme.of(context).brightness ==
-                                        Brightness.dark
-                                    ? ColorFilter.mode(
-                                        Colors.black.withOpacity(0.3),
-                                        BlendMode.softLight,
-                                      )
-                                    : ColorFilter.mode(
-                                        Colors.black.withOpacity(0.8),
-                                        BlendMode.softLight,
-                                      ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        child: imageUrl.isNotEmpty
+                            ? CachedNetworkImage(
+                                imageUrl: imageUrl,
+                                imageBuilder: (c, image) => Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: image,
+                                      fit: BoxFit.cover,
+                                      colorFilter:
+                                          Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? ColorFilter.mode(
+                                                  Colors.black.withOpacity(0.3),
+                                                  BlendMode.softLight,
+                                                )
+                                              : ColorFilter.mode(
+                                                  Colors.black.withOpacity(0.8),
+                                                  BlendMode.softLight,
+                                                ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Image.asset(CommonConstants.emptyImagePath,
+                                fit: BoxFit.contain),
                       ),
                       Positioned(
                         bottom: 12.h,

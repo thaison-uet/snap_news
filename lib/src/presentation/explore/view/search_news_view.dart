@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:news_app/src/utils/constants/common_constants.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -172,6 +173,7 @@ class _SearchNewsViewState extends State<SearchNewsView> {
                     itemCount:
                         state.hasReachedMax ? data.length : data.length + 1,
                     itemBuilder: (ctx, index) {
+                      var imageUrl = data[index].urlToImage;
                       return index >= data.length
                           ? data.length >= 10
                               ? Column(
@@ -224,17 +226,24 @@ class _SearchNewsViewState extends State<SearchNewsView> {
                                       child: SizedBox(
                                         width: 115.w,
                                         height: 100.h,
-                                        child: CachedNetworkImage(
-                                          imageUrl: data[index].urlToImage,
-                                          imageBuilder: (c, image) => Container(
-                                            decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                image: image,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
+                                        child: imageUrl.isNotEmpty
+                                            ? CachedNetworkImage(
+                                                imageUrl: imageUrl,
+                                                imageBuilder: (c, image) =>
+                                                    Container(
+                                                  decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                      image: image,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            : Image.asset(
+                                                width: 115.w,
+                                                height: 100.h,
+                                                CommonConstants.emptyImagePath,
+                                                fit: BoxFit.contain),
                                       ),
                                     ),
                                     Padding(

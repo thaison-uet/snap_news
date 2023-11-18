@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:news_app/src/utils/constants/common_constants.dart';
 
 import '../../../core/core.dart';
 import '../../../domain/domain.dart';
@@ -19,9 +20,7 @@ class DetailNewsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocListener<BookmarkNewsBloc, BookmarkNewsState>(
-        listener: (_, state) {
-          
-        },
+        listener: (_, state) {},
         child: CustomScrollView(
           slivers: [
             SliverAppBar(
@@ -68,26 +67,31 @@ class DetailNewsView extends StatelessWidget {
                   height: 100.h,
                   child: Stack(
                     children: [
-                      CachedNetworkImage(
-                        imageUrl: response[0].urlToImage,
-                        imageBuilder: (c, image) => Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: image,
-                              fit: BoxFit.cover,
-                              colorFilter: Guide.isDark(context)
-                                  ? ColorFilter.mode(
-                                      Colors.black.withOpacity(0.9),
-                                      BlendMode.softLight,
-                                    )
-                                  : ColorFilter.mode(
-                                      Colors.black.withOpacity(0.8),
-                                      BlendMode.softLight,
-                                    ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      response[0].urlToImage.isNotEmpty
+                          ? CachedNetworkImage(
+                              imageUrl: response[0].urlToImage,
+                              imageBuilder: (c, image) => Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: image,
+                                    fit: BoxFit.cover,
+                                    colorFilter: Guide.isDark(context)
+                                        ? ColorFilter.mode(
+                                            Colors.black.withOpacity(0.9),
+                                            BlendMode.softLight,
+                                          )
+                                        : ColorFilter.mode(
+                                            Colors.black.withOpacity(0.8),
+                                            BlendMode.softLight,
+                                          ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Image.asset(
+                              height: 100.h,
+                              CommonConstants.emptyImagePath,
+                              fit: BoxFit.contain),
                       Positioned(
                         bottom: -1,
                         right: 0,

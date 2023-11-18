@@ -16,6 +16,7 @@ import '../../presentation/navigation/view/navigation_view.dart';
 class RouterGenerator {
   Route<dynamic>? generate(RouteSettings settings) {
     final arguments = settings.arguments;
+    print("SSSSS: route: ${settings.name}");
     switch (settings.name) {
       case root:
         return MaterialPageRoute(

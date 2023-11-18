@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:news_app/src/utils/constants/common_constants.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -175,20 +176,33 @@ class _ExploreViewsState extends State<ExploreViews> {
                                               child: SizedBox(
                                                 width: 140.w,
                                                 height: 110.h,
-                                                child: CachedNetworkImage(
-                                                  imageUrl:
-                                                      recommendation[index]
-                                                          .urlToImage,
-                                                  imageBuilder: (c, image) =>
-                                                      Container(
-                                                    decoration: BoxDecoration(
-                                                      image: DecorationImage(
-                                                        image: image,
-                                                        fit: BoxFit.fill,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
+                                                child: recommendation[index]
+                                                        .urlToImage
+                                                        .isNotEmpty
+                                                    ? CachedNetworkImage(
+                                                        imageUrl:
+                                                            recommendation[
+                                                                    index]
+                                                                .urlToImage,
+                                                        imageBuilder:
+                                                            (c, image) =>
+                                                                Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            image:
+                                                                DecorationImage(
+                                                              image: image,
+                                                              fit: BoxFit.fill,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    : Image.asset(
+                                                        width: 140.w,
+                                                        height: 110.h,
+                                                        CommonConstants
+                                                            .emptyImagePath,
+                                                        fit: BoxFit.contain),
                                               ),
                                             ),
                                             Padding(
