@@ -27,16 +27,16 @@ class DetailNewsView extends StatelessWidget {
               expandedHeight: 250.h,
               floating: true,
               pinned: true,
-              title: Container(
-                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 5.h),
-                decoration: BoxDecoration(
-                  color: Guide.isDark(context) ? colorsBlack : colorWhite,
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                child: Text(
-                  Uri.parse(response[0].url).host,
-                ).normalSized(15).colors(colorPrimary),
-              ),
+              // title: Container(
+              //   padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 5.h),
+              //   decoration: BoxDecoration(
+              //     color: Guide.isDark(context) ? colorsBlack : colorWhite,
+              //     borderRadius: BorderRadius.circular(10.r),
+              //   ),
+              //   child: Text(
+              //     Uri.parse(response[0].url).host,
+              //   ).normalSized(15).colors(colorPrimary),
+              // ),
               centerTitle: true,
               elevation: 0,
               backgroundColor: Guide.isDark(context) ? colorsBlack : colorWhite,
@@ -149,50 +149,56 @@ class DetailNewsView extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: 4.w),
                         child: Row(
                           children: [
-                            CircleAvatar(
-                              radius: 25.r,
-                              backgroundColor: colorPrimary,
-                              backgroundImage:
-                                  const AssetImage("assets/profile/3.jpg"),
-                            ),
-                            SizedBox(
-                              width: 10.w,
-                            ),
+                            // CircleAvatar(
+                            //   radius: 25.r,
+                            //   backgroundColor: colorPrimary,
+                            //   backgroundImage:
+                            //       const AssetImage("assets/profile/3.jpg"),
+                            // ),
+                            // SizedBox(
+                            //   width: 10.w,
+                            // ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 SizedBox(
-                                  width: 300.w,
+                                  width: MediaQuery.of(context).size.width -
+                                      2 * (10.w + 4.w),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      const Text("Article By")
+                                      const Text("Article by")
                                           .normalSized(11)
                                           .colors(
                                             Guide.isDark(context)
                                                 ? darkThemeText
                                                 : colorTextGray,
                                           ),
-                                      Text(
-                                        DateFormat.yMMMMEEEEd()
-                                            .format(response[0].publishedAt),
-                                      ).normalSized(11).colors(
-                                            Guide.isDark(context)
-                                                ? darkThemeText
-                                                : colorTextGray,
-                                          ),
+                                      Expanded(
+                                        child: Align(
+                                          alignment: Alignment.centerRight,
+                                          child: Text(
+                                            DateFormat.yMMMMEEEEd().format(
+                                                response[0].publishedAt),
+                                          ).normalSized(11).colors(
+                                                Guide.isDark(context)
+                                                    ? darkThemeText
+                                                    : colorTextGray,
+                                              ),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
+                                const SizedBox(height: 4),
                                 SizedBox(
                                   width: 250.w,
                                   child: Text(
                                     response[0].author,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                  ).boldSized(17).colors(
+                                  ).boldSized(12).colors(
                                         Guide.isDark(context)
                                             ? darkThemeText
                                             : colorTextGray,
@@ -204,7 +210,7 @@ class DetailNewsView extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: 10.h,
+                        height: 20.h,
                       ),
                       Text(
                         response[0].title,
@@ -218,7 +224,7 @@ class DetailNewsView extends StatelessWidget {
                       ),
                       Container(
                         child: Text(
-                          response[0].content,
+                          convertContent(response[0].content),
                         ).normalSized(13).colors(
                               Guide.isDark(context)
                                   ? darkThemeText
@@ -237,5 +243,16 @@ class DetailNewsView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String convertContent(String content) {
+    String convertedContent = content;
+    int replaceStartIndex = content.indexOf('[+');
+    int replaceEndIndex = content.length;
+    if (replaceStartIndex >= 0) {
+      convertedContent = content.replaceRange(
+          replaceStartIndex, replaceEndIndex, "Read full article");
+    }
+    return convertedContent;
   }
 }
