@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_app/src/core/core.dart';
 import 'package:news_app/src/presentation/common/widget/already_have_an_account_acheck.dart';
 import 'package:news_app/src/presentation/login_signup/view/sign_up_view.dart';
+import 'package:news_app/src/utils/app_util.dart';
 import 'package:news_app/src/utils/constants/common_constants.dart';
 
 class LoginForm extends StatelessWidget {
@@ -45,7 +46,13 @@ class LoginForm extends StatelessWidget {
           ),
           SizedBox(height: CommonConstants.defaultPadding),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              AppUtil.instance.isLogin = true;
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                home,
+                (route) => false,
+              );
+            },
             child: Text(
               "Login".toUpperCase(),
               style: const TextStyle(color: Colors.white),

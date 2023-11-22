@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_app/src/core/core.dart';
+import 'package:news_app/src/utils/app_util.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -15,8 +16,7 @@ class _SplashViewState extends State<SplashView> {
     Future.delayed(
       const Duration(milliseconds: 50),
       () => Navigator.of(context).pushNamedAndRemoveUntil(
-        // home,
-        welcome,
+        AppUtil.instance.isLogin ? home : welcome,
         (route) => false,
       ),
     );
