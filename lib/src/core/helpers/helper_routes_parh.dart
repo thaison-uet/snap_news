@@ -1,5 +1,8 @@
 const root = "/";
 
+// Welcome
+const welcome = "/welcome";
+
 // Explore Path
 const searchNews = "/explore/search";
 
