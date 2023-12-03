@@ -14,7 +14,20 @@ class LoginForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Form(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
+          // const Text(
+          //   'Login',
+          //   textAlign: TextAlign.left,
+          //   style: TextStyle(
+          //     fontSize: 20,
+          //     color: colorPrimary,
+          //     fontWeight: FontWeight.bold,
+          //   ),
+          // ),
+          // SizedBox(height: CommonConstants.defaultPadding * 2),
           TextFormField(
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
@@ -45,17 +58,27 @@ class LoginForm extends StatelessWidget {
             ),
           ),
           SizedBox(height: CommonConstants.defaultPadding),
-          ElevatedButton(
-            onPressed: () {
-              AppUtil.instance.isLogin = true;
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                home,
-                (route) => false,
-              );
-            },
-            child: Text(
-              "Login".toUpperCase(),
-              style: const TextStyle(color: Colors.white),
+          SizedBox(
+            width: double.infinity,
+            height: 48,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                          side: const BorderSide(color: Colors.transparent)))),
+              onPressed: () {
+                AppUtil.instance.isLogin = true;
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  home,
+                  (route) => false,
+                );
+              },
+              child: Text(
+                "Login".toUpperCase(),
+                style: const TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold),
+              ),
             ),
           ),
           SizedBox(height: CommonConstants.defaultPadding),

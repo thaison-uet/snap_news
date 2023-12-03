@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:news_app/src/utils/constants/common_constants.dart';
 
-const Color colorPrimary = Color(0xFF2BB660);
+const Color colorPrimary = Color(0xFF2C7973);
 const Color colorPrimaryReadMode = Color(0xFFF5A512);
+Color colorPrimaryOpacity10 = const Color(0xFF2C7973).withOpacity(0.1);
+Color colorPrimaryOpacity40 = const Color(0xFF2C7973).withOpacity(0.4);
 const Color colorSecondary = Color(0xFFFFFFFF);
 const Color colorSecondaryReadMode = Color(0xFFDFCEBC);
 const Color transparent = Color(0x00000000);
@@ -20,31 +23,53 @@ const Color textGray = Color(0xFF595959);
 const Color darkThemeText = Color.fromARGB(255, 135, 134, 134);
 
 final ligthTheme = ThemeData(
-  visualDensity: VisualDensity.adaptivePlatformDensity,
-  primaryColor: colorPrimary,
-  // primarySwatch: primaryCustomSwatch,
-  brightness: Brightness.light,
-  fontFamily: GoogleFonts.roboto().fontFamily,
-  bottomSheetTheme:
-      BottomSheetThemeData(backgroundColor: Colors.black.withOpacity(0)),
-  scaffoldBackgroundColor: Colors.white,
-  backgroundColor: Colors.white,
-  textTheme: const TextTheme(
-    bodyText1: TextStyle(),
-    bodyText2: TextStyle(),
-  ).apply(
-    bodyColor: colorsBlack,
-    displayColor: colorsBlack,
-  ),
-  colorScheme: const ColorScheme.light()
-      .copyWith(primary: colorPrimary, onPrimary: colorPrimary)
-      .copyWith(
-        primary: colorPrimary,
-        secondary: colorPrimary,
-        brightness: Brightness.light,
+    visualDensity: VisualDensity.adaptivePlatformDensity,
+    primaryColor: colorPrimary,
+    // primarySwatch: primaryCustomSwatch,
+    brightness: Brightness.light,
+    fontFamily: GoogleFonts.roboto().fontFamily,
+    bottomSheetTheme:
+        BottomSheetThemeData(backgroundColor: Colors.black.withOpacity(0)),
+    scaffoldBackgroundColor: Colors.white,
+    backgroundColor: Colors.white,
+    textTheme: const TextTheme(
+      bodyText1: TextStyle(),
+      bodyText2: TextStyle(),
+    ).apply(
+      bodyColor: colorsBlack,
+      displayColor: colorsBlack,
+    ),
+    colorScheme: const ColorScheme.light()
+        .copyWith(primary: colorPrimary, onPrimary: colorPrimary)
+        .copyWith(
+          primary: colorPrimary,
+          secondary: colorPrimary,
+          brightness: Brightness.light,
+        ),
+    textSelectionTheme: const TextSelectionThemeData(cursorColor: colorPrimary),
+    // elevatedButtonTheme: ElevatedButtonThemeData(
+    //   style: ElevatedButton.styleFrom(
+    //     elevation: 0,
+    //     foregroundColor: Colors.white,
+    //     backgroundColor: colorPrimary,
+    //     shape: const StadiumBorder(),
+    //     maximumSize: const Size(double.infinity, 56),
+    //     minimumSize: const Size(double.infinity, 56),
+    //   ),
+    // ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: colorPrimaryOpacity10,
+      iconColor: colorPrimary,
+      prefixIconColor: colorPrimary,
+      contentPadding: EdgeInsets.symmetric(
+          horizontal: CommonConstants.defaultPadding,
+          vertical: CommonConstants.defaultPadding),
+      border: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+        borderSide: BorderSide.none,
       ),
-  textSelectionTheme: const TextSelectionThemeData(cursorColor: colorPrimary),
-);
+    ));
 
 final darkTheme = ThemeData(
   visualDensity: VisualDensity.adaptivePlatformDensity,

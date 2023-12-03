@@ -9,10 +9,12 @@ class WelcomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Background(
+    return Container(
+      color: Colors.white,
       child: SingleChildScrollView(
-        child: SafeArea(
-          child: Responsive(
+        child: Container(
+          color: Colors.white,
+          child: const Responsive(
             desktop: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [

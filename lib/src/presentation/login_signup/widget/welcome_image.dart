@@ -13,7 +13,8 @@ class WelcomeImage extends StatelessWidget {
       children: [
         const Text(
           "Get Snappy with Snap News",
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black),
         ),
         SizedBox(height: CommonConstants.defaultPadding * 2),
         Row(

@@ -41,7 +41,7 @@ class LoginAndSignupBtn extends StatelessWidget {
             );
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: colorPrimary,
+            backgroundColor: colorPrimary.withOpacity(0.5),
             elevation: 0,
           ),
           child: Text(
