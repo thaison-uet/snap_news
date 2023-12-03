@@ -5,10 +5,18 @@ import 'package:news_app/src/presentation/login_signup/view/sign_up_view.dart';
 import 'package:news_app/src/utils/app_util.dart';
 import 'package:news_app/src/utils/constants/common_constants.dart';
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
   const LoginForm({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  String? email;
+  String? password;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +40,11 @@ class LoginForm extends StatelessWidget {
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
             cursorColor: colorPrimary,
+            onChanged: (email) {
+              setState(() {
+                this.email = email;
+              });
+            },
             onSaved: (email) {},
             decoration: InputDecoration(
               hintText: "Your email",
@@ -48,6 +61,11 @@ class LoginForm extends StatelessWidget {
               textInputAction: TextInputAction.done,
               obscureText: true,
               cursorColor: colorPrimary,
+              onChanged: (password) {
+                setState(() {
+                  this.password = password;
+                });
+              },
               decoration: InputDecoration(
                 hintText: "Your password",
                 prefixIcon: Padding(
@@ -67,13 +85,15 @@ class LoginForm extends StatelessWidget {
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12.0),
                           side: const BorderSide(color: Colors.transparent)))),
-              onPressed: () {
-                AppUtil.instance.isLogin = true;
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  home,
-                  (route) => false,
-                );
-              },
+              onPressed: isValidForm()
+                  ? () {
+                      AppUtil.instance.isLogin = true;
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        home,
+                        (route) => false,
+                      );
+                    }
+                  : null,
               child: Text(
                 "Login".toUpperCase(),
                 style: const TextStyle(
@@ -97,5 +117,11 @@ class LoginForm extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  bool isValidForm() {
+    return (email?.isNotEmpty ?? false) &&
+        ((password?.length ?? 0) >= 6) &&
+        ((password?.length ?? 0) <= 24);
   }
 }
