@@ -1,4 +1,4 @@
-# news_app
+# SnapNews
 
 A new Flutter project.
 

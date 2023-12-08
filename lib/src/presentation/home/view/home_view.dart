@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,8 +10,12 @@ import 'package:intl/intl.dart';
 import 'package:news_app/src/core/components/component_skeleton.dart';
 import 'package:news_app/src/core/core.dart';
 import 'package:news_app/src/domain/entitites/category_type.dart';
+import 'package:news_app/src/presentation/common/widget/loading_indicator.dart';
 import 'package:news_app/src/presentation/home/widget/hot_skeleton_widget.dart';
+import 'package:news_app/src/presentation/login_signup/view/login_view.dart';
+import 'package:news_app/src/utils/app_util.dart';
 import 'package:news_app/src/utils/constants/common_constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -21,7 +26,9 @@ import '../bloc/theme/theme_mode_bloc.dart';
 import '../widget/trending_skeleton_widget.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({Key? key}) : super(key: key);
+  bool isShowLoading = false;
+
+  HomeView({Key? key}) : super(key: key);
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -32,129 +39,168 @@ class _HomeViewState extends State<HomeView> {
   final List<NewsEntities> data = [];
   late PageController controller;
   int _cIndex = 0;
-  List<String> homeTitles = [
-    "News time, dive in!",
-    "What's breaking, Shin?",
-    "Read the latest buzz",
-    "News for you, Shin",
-    "Breaking news alert!"
-  ];
+  List<String> homeTitles = [];
 
   @override
   void initState() {
     controller = PageController();
+    AppUtil.instance.user ??= FirebaseAuth.instance.currentUser;
+    if (AppUtil.instance.user != null) {
+      homeTitles = [
+        "${AppUtil.instance.user!.displayName}, News time, dive in!",
+        "What's breaking, ${AppUtil.instance.user!.displayName}",
+        "Read the latest buzz",
+        "News for you, ${AppUtil.instance.user!.displayName}",
+        "Breaking news alert!"
+      ];
+    } else {
+      homeTitles = ["Hello"]; // This case should not occurs
+    }
     super.initState();
   }
 
   @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 70,
-        elevation: 0,
-        backgroundColor: Guide.isDark(context) ? colorsBlack : colorWhite,
-        centerTitle: false,
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(homeTitles[Random().nextInt(homeTitles.length)])
-                .blackSized(23)
-                .colors(Guide.isDark(context) ? darkThemeText : colorsBlack),
-            const SizedBox(height: 4),
-            Text(
-              DateFormat.yMMMMEEEEd().format(
-                DateTime.now(),
-              ),
-            ).boldSized(12).colors(colorTextGray),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          toolbarHeight: 70,
+          elevation: 0,
+          backgroundColor: Guide.isDark(context) ? colorsBlack : colorWhite,
+          centerTitle: false,
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(homeTitles[Random().nextInt(homeTitles.length)])
+                  .blackSized(23)
+                  .colors(Guide.isDark(context) ? darkThemeText : colorsBlack),
+              const SizedBox(height: 4),
+              Text(
+                DateFormat.yMMMMEEEEd().format(
+                  DateTime.now(),
+                ),
+              ).boldSized(12).colors(colorTextGray),
+            ],
+          ),
+          actions: [
+            BlocBuilder<ThemeModeBloc, ThemeModeState>(
+              builder: (_, state) {
+                return Switch(
+                  value: state.isDarkMode,
+                  onChanged: (value) {
+                    BlocProvider.of<ThemeModeBloc>(context)
+                        .add(const ChangeThemeModeEvent());
+                  },
+                  activeColor: colorPrimary,
+                  activeTrackColor: darkThemeText,
+                  inactiveThumbColor: colorPrimary,
+                  inactiveTrackColor: borderGray,
+                );
+              },
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  signOut();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:
+                      Guide.isDark(context) ? colorsBlack : colorWhite,
+                  elevation: 0,
+                ),
+                child: Image.asset("assets/icons/ic_sign_out.png",
+                    width: 24.w,
+                    height: 24.h,
+                    color:
+                        Guide.isDark(context) ? darkThemeText : colorsBlack)),
           ],
         ),
-        actions: [
-          BlocBuilder<ThemeModeBloc, ThemeModeState>(
-            builder: (_, state) {
-              return Switch(
-                value: state.isDarkMode,
-                onChanged: (value) {
-                  BlocProvider.of<ThemeModeBloc>(context)
-                      .add(const ChangeThemeModeEvent());
-                },
-                activeColor: colorPrimary,
-                activeTrackColor: darkThemeText,
-                inactiveThumbColor: colorPrimary,
-                inactiveTrackColor: borderGray,
-              );
+        body: Stack(children: [
+          RefreshIndicator(
+            onRefresh: () async {
+              context.read<HomeNewsBloc>().add(const GetRecommendationNews());
+              context.read<HomeNewsBloc>().add(const GetHotNews());
+              context.read<HomeNewsBloc>().add(const GetTrendingNews());
             },
-          ),
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              primary: Guide.isDark(context) ? colorsBlack : colorWhite,
-              elevation: 0,
-            ),
-            child: SvgPicture.asset(
-              "assets/icons/notification.svg",
-              height: 24.h,
-              width: 24.w,
-              color: Guide.isDark(context) ? darkThemeText : colorsBlack,
-            ),
-          ),
-        ],
-      ),
-      body: SafeArea(
-        child: RefreshIndicator(
-          onRefresh: () async {
-            context.read<HomeNewsBloc>().add(const GetRecommendationNews());
-            context.read<HomeNewsBloc>().add(const GetHotNews());
-            context.read<HomeNewsBloc>().add(const GetTrendingNews());
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: Guide.isDark(context)
-                    ? [
-                        colorsBlack,
-                        // colorsBlackGray,
-                        colorsBlack
-                      ]
-                    : [
-                        colorWhite,
-                        // colorGray,
-                        colorWhite
-                      ],
-                // stops: [],
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: Guide.isDark(context)
+                      ? [
+                          colorsBlack,
+                          // colorsBlackGray,
+                          colorsBlack
+                        ]
+                      : [
+                          colorWhite,
+                          // colorGray,
+                          colorWhite
+                        ],
+                  // stops: [],
+                ),
               ),
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 20.h),
-                  _sliderNewsWidget(),
-                  SizedBox(height: 25.h),
-                  // _categorySliderWidget(),
-                  // SizedBox(height: 20.h),
-                  _hotTextWidget(),
-                  SizedBox(height: 10.h),
-                  _hotNewsWidget(),
-                  SizedBox(height: 25.h),
-                  _recommendationTextWidget(),
-                  SizedBox(height: 10.h),
-                  _recommendationNews(),
-                  SizedBox(height: 25.h),
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 20.h),
+                    _sliderNewsWidget(),
+                    SizedBox(height: 25.h),
+                    // _categorySliderWidget(),
+                    // SizedBox(height: 20.h),
+                    _hotTextWidget(),
+                    SizedBox(height: 10.h),
+                    _hotNewsWidget(),
+                    SizedBox(height: 25.h),
+                    _recommendationTextWidget(),
+                    SizedBox(height: 10.h),
+                    _recommendationNews(),
+                    SizedBox(height: 25.h),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
+          LoadingView(isVisible: widget.isShowLoading)
+        ]),
       ),
     );
+  }
+
+  Future<void> signOut() async {
+    setState(() {
+      widget.isShowLoading = true;
+    });
+    await FirebaseAuth.instance.signOut().then((value) async {
+      setState(() {
+        widget.isShowLoading = true;
+      });
+      AppUtil.instance.isLogin = false;
+      AppUtil.instance.user = null;
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setBool(CommonConstants.keyIsLogin, AppUtil.instance.isLogin);
+
+      // ignore: use_build_context_synchronously
+      Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+          PageRouteBuilder(pageBuilder: (BuildContext context,
+              Animation animation, Animation secondaryAnimation) {
+            return LoginView();
+          }, transitionsBuilder: (BuildContext context,
+              Animation<double> animation,
+              Animation<double> secondaryAnimation,
+              Widget child) {
+            return SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(0.0, 0.0),
+                end: Offset.zero,
+              ).animate(animation),
+              child: child,
+            );
+          }),
+          (Route route) => false);
+    });
   }
 
   Widget _recommendationTextWidget() {
@@ -292,14 +338,23 @@ class _HomeViewState extends State<HomeView> {
                                                 .urlToImage,
                                             imageBuilder: (c, image) =>
                                                 Container(
-                                              decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                  image: image,
-                                                  fit: BoxFit.cover,
+                                                  decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                      image: image,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                          )
+                                            errorWidget: (context, url, error) {
+                                              print(
+                                                  'CachedNetworkImage error: $error');
+                                              return Image.asset(
+                                                  width: 115.w,
+                                                  height: 100.h,
+                                                  CommonConstants
+                                                      .emptyImagePath,
+                                                  fit: BoxFit.contain);
+                                            })
                                         : Image.asset(
                                             width: 115.w,
                                             height: 100.h,
@@ -553,14 +608,24 @@ class _HomeViewState extends State<HomeView> {
                                                     articles[index].urlToImage,
                                                 imageBuilder: (c, image) =>
                                                     Container(
-                                                  decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                      image: image,
-                                                      fit: BoxFit.cover,
+                                                      decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                          image: image,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
-                                              )
+                                                errorWidget:
+                                                    (context, url, error) {
+                                                  print(
+                                                      'CachedNetworkImage error: ${CachedNetworkImage}');
+                                                  return Image.asset(
+                                                      width: 115.w,
+                                                      height: 100.h,
+                                                      CommonConstants
+                                                          .emptyImagePath,
+                                                      fit: BoxFit.contain);
+                                                })
                                             : Image.asset(
                                                 width: double.maxFinite,
                                                 height: 100.h,
@@ -878,12 +943,12 @@ class _HomeViewState extends State<HomeView> {
                             ? CachedNetworkImage(
                                 imageUrl: imageUrl,
                                 imageBuilder: (c, image) => Container(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: image,
-                                      fit: BoxFit.cover,
-                                      colorFilter:
-                                          Theme.of(context).brightness ==
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: image,
+                                          fit: BoxFit.cover,
+                                          colorFilter: Theme.of(context)
+                                                      .brightness ==
                                                   Brightness.dark
                                               ? ColorFilter.mode(
                                                   Colors.black.withOpacity(0.3),
@@ -893,10 +958,18 @@ class _HomeViewState extends State<HomeView> {
                                                   Colors.black.withOpacity(0.8),
                                                   BlendMode.softLight,
                                                 ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              )
+                                errorWidget: (context, url, error) {
+                                  print(
+                                      'CachedNetworkImage error: ${CachedNetworkImage}');
+                                  return Image.asset(
+                                      width: 115.w,
+                                      height: 100.h,
+                                      CommonConstants.emptyImagePath,
+                                      fit: BoxFit.contain);
+                                })
                             : Image.asset(CommonConstants.emptyImagePath,
                                 fit: BoxFit.contain),
                       ),
@@ -1068,5 +1141,11 @@ class _HomeViewState extends State<HomeView> {
         return Container();
       },
     );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }

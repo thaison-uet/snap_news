@@ -184,19 +184,32 @@ class _ExploreViewsState extends State<ExploreViews> {
                                                             recommendation[
                                                                     index]
                                                                 .urlToImage,
-                                                        imageBuilder:
-                                                            (c, image) =>
-                                                                Container(
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            image:
-                                                                DecorationImage(
-                                                              image: image,
-                                                              fit: BoxFit.fill,
+                                                        imageBuilder: (c,
+                                                                image) =>
+                                                            Container(
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                image:
+                                                                    DecorationImage(
+                                                                  image: image,
+                                                                  fit: BoxFit
+                                                                      .fill,
+                                                                ),
+                                                              ),
                                                             ),
-                                                          ),
-                                                        ),
-                                                      )
+                                                        errorWidget:
+                                                            (context, url,
+                                                                error) {
+                                                          print(
+                                                              'CachedNetworkImage error: ${CachedNetworkImage}');
+                                                          return Image.asset(
+                                                              width: 115.w,
+                                                              height: 100.h,
+                                                              CommonConstants
+                                                                  .emptyImagePath,
+                                                              fit: BoxFit
+                                                                  .contain);
+                                                        })
                                                     : Image.asset(
                                                         width: 140.w,
                                                         height: 110.h,

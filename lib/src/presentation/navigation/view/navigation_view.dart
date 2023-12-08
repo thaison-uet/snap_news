@@ -22,7 +22,7 @@ class NavigationViews extends StatelessWidget {
           ..add(const GetTrendingNews())
           ..add(const GetHotNews())
           ..add(const GetRecommendationNews()),
-        child: const HomeView(),
+        child: HomeView(),
       ),
       // const HomeView(),
       BlocProvider(

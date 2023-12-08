@@ -71,23 +71,31 @@ class DetailNewsView extends StatelessWidget {
                           ? CachedNetworkImage(
                               imageUrl: response[0].urlToImage,
                               imageBuilder: (c, image) => Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: image,
-                                    fit: BoxFit.cover,
-                                    colorFilter: Guide.isDark(context)
-                                        ? ColorFilter.mode(
-                                            Colors.black.withOpacity(0.9),
-                                            BlendMode.softLight,
-                                          )
-                                        : ColorFilter.mode(
-                                            Colors.black.withOpacity(0.8),
-                                            BlendMode.softLight,
-                                          ),
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: image,
+                                        fit: BoxFit.cover,
+                                        colorFilter: Guide.isDark(context)
+                                            ? ColorFilter.mode(
+                                                Colors.black.withOpacity(0.9),
+                                                BlendMode.softLight,
+                                              )
+                                            : ColorFilter.mode(
+                                                Colors.black.withOpacity(0.8),
+                                                BlendMode.softLight,
+                                              ),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            )
+                              errorWidget: (context, url, error) {
+                                print(
+                                    'CachedNetworkImage error: ${CachedNetworkImage}');
+                                return Image.asset(
+                                    width: 115.w,
+                                    height: 100.h,
+                                    CommonConstants.emptyImagePath,
+                                    fit: BoxFit.contain);
+                              })
                           : Image.asset(
                               height: 100.h,
                               CommonConstants.emptyImagePath,

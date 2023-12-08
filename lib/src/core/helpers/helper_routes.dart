@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/src/core/core.dart';
 import 'package:news_app/src/presentation/home/bloc/category_news/category_news_bloc.dart';
+import 'package:news_app/src/presentation/login_signup/view/login_view.dart';
+import 'package:news_app/src/presentation/login_signup/view/sign_up_view.dart';
+import 'package:news_app/src/presentation/login_signup/view/welcome_view.dart';
+import 'package:news_app/src/utils/app_util.dart';
 
 import '../../domain/domain.dart';
 import '../../injector.dart';
@@ -23,6 +27,18 @@ class RouterGenerator {
           builder: (context) => const SplashView(),
           settings: const RouteSettings(name: root),
         );
+      case welcome:
+        return MaterialPageRoute(
+            builder: (context) => const WelcomeView(),
+            settings: const RouteSettings(name: welcome));
+      case login:
+        return MaterialPageRoute(
+            builder: (context) => LoginView(),
+            settings: const RouteSettings(name: login));
+      case signUp:
+        return MaterialPageRoute(
+            builder: (context) => SignUpView(),
+            settings: const RouteSettings(name: signUp));
       case home:
         return MaterialPageRoute(
           builder: (context) => const NavigationViews(),
