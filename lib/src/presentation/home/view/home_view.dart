@@ -47,7 +47,7 @@ class _HomeViewState extends State<HomeView> {
     AppUtil.instance.user ??= FirebaseAuth.instance.currentUser;
     if (AppUtil.instance.user != null) {
       homeTitles = [
-        "${AppUtil.instance.user!.displayName}, News time, dive in!",
+        "${AppUtil.instance.user!.displayName}! News time, dive in!",
         "What's breaking, ${AppUtil.instance.user!.displayName}",
         "Read the latest buzz",
         "News for you, ${AppUtil.instance.user!.displayName}",
