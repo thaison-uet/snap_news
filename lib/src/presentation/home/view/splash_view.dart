@@ -21,46 +21,15 @@ class _SplashViewState extends State<SplashView> {
   @override
   Widget build(BuildContext context) {
     checkLoginState();
-    return Scaffold(
-      backgroundColor: Guide.isDark(context) ? colorsBlack : colorWhite,
-      body: SafeArea(
-        child: Center(
-          child: SizedBox(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Spacer(),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(30.r),
-                  child: Image.asset(
-                    "assets/icons/app.jpg",
-                    width: 130.w,
-                    height: 130.w,
-                  ),
-                ),
-                const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text("An Application Made With")
-                          .normalSized(12)
-                          .colors(Guide.isDark(context)
-                              ? darkThemeText
-                              : colorTextGray),
-                      const Icon(
-                        Icons.favorite,
-                        color: Colors.red,
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+    return Container(
+      color: colorPrimary,
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      alignment: Alignment.center,
+      child: Image.asset(
+        "assets/icons/ic_logo_in_splash.png",
+        width: 130.w,
+        height: 130.w,
       ),
     );
   }
@@ -70,7 +39,7 @@ class _SplashViewState extends State<SplashView> {
     AppUtil.instance.isLogin =
         prefs.getBool(CommonConstants.keyIsLogin) ?? false;
     Future.delayed(
-        const Duration(milliseconds: 50),
+        const Duration(milliseconds: 100),
         () => Navigator.of(context).pushNamedAndRemoveUntil(
               AppUtil.instance.isLogin ? home : login,
               (route) => false,
