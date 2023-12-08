@@ -2,8 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:news_app/src/utils/constants/common_constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/core.dart';
 import '../../../domain/domain.dart';
@@ -89,7 +91,7 @@ class DetailNewsView extends StatelessWidget {
                                   ),
                               errorWidget: (context, url, error) {
                                 print(
-                                    'CachedNetworkImage error: ${CachedNetworkImage}');
+                                    'CachedNetworkImage error: ${error.toString()}');
                                 return Image.asset(
                                     width: 115.w,
                                     height: 100.h,
@@ -230,15 +232,24 @@ class DetailNewsView extends StatelessWidget {
                       SizedBox(
                         height: 20.h,
                       ),
-                      Container(
-                        child: Text(
-                          convertContent(response[0].content),
-                        ).normalSized(13).colors(
-                              Guide.isDark(context)
-                                  ? darkThemeText
-                                  : colorTextGray,
-                            ),
-                      ),
+                      Stack(alignment: Alignment.bottomCenter, children: [
+                        Container(
+                          child: Text(
+                            convertContent(response[0].content),
+                          ).normalSized(13).colors(
+                                Guide.isDark(context)
+                                    ? darkThemeText
+                                    : colorTextGray,
+                              ),
+                        ),
+                        GestureDetector(
+                          onTap: () => openNews(response[0].url),
+                          child: Container(
+                              width: double.infinity,
+                              height: 20,
+                              color: transparent),
+                        )
+                      ]),
                       SizedBox(
                         height: 10.h,
                       )
@@ -251,6 +262,20 @@ class DetailNewsView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> openNews(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      Fluttertoast.showToast(
+          msg: "Could not launch $url",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: colorPrimaryOpacity80,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      throw Exception('Could not launch $url');
+    }
   }
 
   String convertContent(String content) {
