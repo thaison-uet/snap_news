@@ -66,10 +66,13 @@ class _SplashViewState extends State<SplashView> {
   }
 
   Future<void> checkLoginState() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    AppUtil.instance.isLogin =
+        prefs.getBool(CommonConstants.keyIsLogin) ?? false;
     Future.delayed(
         const Duration(milliseconds: 50),
         () => Navigator.of(context).pushNamedAndRemoveUntil(
-              home,
+              AppUtil.instance.isLogin ? home : login,
               (route) => false,
             ));
   }
