@@ -1,11 +1,21 @@
+import 'dart:async';
+import 'dart:ffi';
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:news_app/src/core/core.dart';
 import 'package:news_app/src/presentation/common/widget/already_have_an_account_acheck.dart';
+import 'package:news_app/src/utils/app_util.dart';
 import 'package:news_app/src/utils/constants/common_constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpForm extends StatefulWidget {
+  final Function(bool) setStateLoadingIndicatorAction;
+
   const SignUpForm({
     Key? key,
+    required this.setStateLoadingIndicatorAction,
   }) : super(key: key);
 
   @override
@@ -13,10 +23,64 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
+  StreamSubscription<User?>? authenListener;
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmedPasswordController = TextEditingController();
   String? name;
   String? email;
   String? password;
   String? confirmedPassword;
+
+  @override
+  void initState() {
+    super.initState();
+
+    AppUtil.instance.isAllowLogin = false;
+    if (!AppUtil.instance.isLogin) {
+      authenListener =
+          FirebaseAuth.instance.authStateChanges().listen((User? user) {
+        print("SSSSS: listened in ${ModalRoute.of(context)?.settings.name}");
+        if (user == null) {
+          print('SSSSS: User is currently signed out!');
+          widget.setStateLoadingIndicatorAction(false);
+        } else {
+          user.updateDisplayName(name).then((value) {
+            FirebaseAuth.instance.signOut().then((value) {
+              print('SSSSS: Sign-up successfully');
+
+              Future.delayed(const Duration(milliseconds: 200), () {
+                clearAllFields();
+                widget.setStateLoadingIndicatorAction(false);
+              });
+
+              Fluttertoast.showToast(
+                  msg: "Thanks for signing up.",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: colorPrimaryOpacity80,
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+              Future.delayed(const Duration(milliseconds: 200), () {
+                Navigator.of(context)
+                    .popUntil((route) => route.settings.name == login);
+              });
+
+              // Navigator.of(context).popUntil(
+              //   home,
+              //   (route) => false,
+              // );
+              // Guide.to(
+              //   name: home,
+              // );
+            });
+          });
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +101,7 @@ class _SignUpFormState extends State<SignUpForm> {
           ),
           SizedBox(height: CommonConstants.defaultPadding * 2),
           TextFormField(
+            controller: nameController,
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
             cursorColor: colorPrimary,
@@ -56,6 +121,7 @@ class _SignUpFormState extends State<SignUpForm> {
           ),
           SizedBox(height: CommonConstants.defaultPadding),
           TextFormField(
+            controller: emailController,
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
             cursorColor: colorPrimary,
@@ -75,6 +141,7 @@ class _SignUpFormState extends State<SignUpForm> {
           ),
           SizedBox(height: CommonConstants.defaultPadding),
           TextFormField(
+            controller: passwordController,
             textInputAction: TextInputAction.done,
             obscureText: true,
             cursorColor: colorPrimary,
@@ -93,6 +160,7 @@ class _SignUpFormState extends State<SignUpForm> {
           ),
           SizedBox(height: CommonConstants.defaultPadding),
           TextFormField(
+            controller: confirmedPasswordController,
             textInputAction: TextInputAction.done,
             obscureText: true,
             cursorColor: colorPrimary,
@@ -123,7 +191,7 @@ class _SignUpFormState extends State<SignUpForm> {
                           side: const BorderSide(color: Colors.transparent)))),
               onPressed: isValidForm()
                   ? () {
-                      // TODO: sign up
+                      signUp();
                     }
                   : null,
               child: Text(
@@ -145,6 +213,67 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
+  Future<void> signUp() async {
+    FocusScope.of(context).unfocus();
+    if (!isValidForm()) {
+      return;
+    }
+
+    widget.setStateLoadingIndicatorAction(true);
+
+    try {
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email!,
+        password: password!,
+      );
+    } on FirebaseAuthException catch (e) {
+      clearAllFields();
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+        Fluttertoast.showToast(
+            msg: "${e.message}",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: colorPrimaryOpacity80,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+        Fluttertoast.showToast(
+            msg: "${e.message}",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: colorPrimaryOpacity80,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      } else {
+        Fluttertoast.showToast(
+            msg: "${e.message}",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: colorPrimaryOpacity80,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
+      widget.setStateLoadingIndicatorAction(false);
+    } catch (e) {
+      print(e);
+      Fluttertoast.showToast(
+          msg: e.toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: colorPrimaryOpacity80,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      widget.setStateLoadingIndicatorAction(false);
+    }
+  }
+
   bool isValidForm() {
     return (name?.isNotEmpty ?? false) &&
         ((name?.length ?? 0) <= 20) &&
@@ -153,5 +282,20 @@ class _SignUpFormState extends State<SignUpForm> {
         ((confirmedPassword?.length ?? 0) >= 6) &&
         ((confirmedPassword?.length ?? 0) <= 24) &&
         confirmedPassword == password;
+  }
+
+  void clearAllFields() {
+    nameController.clear();
+    emailController.clear();
+    passwordController.clear();
+    confirmedPasswordController.clear();
+  }
+
+  @override
+  void dispose() {
+    AppUtil.instance.isAllowLogin = true;
+    // print('SSSSS: cancel listener signup');
+    // authenListener?.cancel();
+    super.dispose();
   }
 }

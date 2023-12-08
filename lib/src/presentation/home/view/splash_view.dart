@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_app/src/core/core.dart';
 import 'package:news_app/src/utils/app_util.dart';
+import 'package:news_app/src/utils/constants/common_constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -13,18 +15,12 @@ class SplashView extends StatefulWidget {
 class _SplashViewState extends State<SplashView> {
   @override
   void initState() {
-    Future.delayed(
-      const Duration(milliseconds: 50),
-      () => Navigator.of(context).pushNamedAndRemoveUntil(
-        AppUtil.instance.isLogin ? home : login,
-        (route) => false,
-      ),
-    );
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    checkLoginState();
     return Scaffold(
       backgroundColor: Guide.isDark(context) ? colorsBlack : colorWhite,
       body: SafeArea(
@@ -67,5 +63,14 @@ class _SplashViewState extends State<SplashView> {
         ),
       ),
     );
+  }
+
+  Future<void> checkLoginState() async {
+    Future.delayed(
+        const Duration(milliseconds: 50),
+        () => Navigator.of(context).pushNamedAndRemoveUntil(
+              home,
+              (route) => false,
+            ));
   }
 }

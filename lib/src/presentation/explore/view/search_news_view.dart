@@ -231,14 +231,24 @@ class _SearchNewsViewState extends State<SearchNewsView> {
                                                 imageUrl: imageUrl,
                                                 imageBuilder: (c, image) =>
                                                     Container(
-                                                  decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                      image: image,
-                                                      fit: BoxFit.cover,
+                                                      decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                          image: image,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
-                                              )
+                                                errorWidget:
+                                                    (context, url, error) {
+                                                  print(
+                                                      'CachedNetworkImage error: ${CachedNetworkImage}');
+                                                  return Image.asset(
+                                                      width: 115.w,
+                                                      height: 100.h,
+                                                      CommonConstants
+                                                          .emptyImagePath,
+                                                      fit: BoxFit.contain);
+                                                })
                                             : Image.asset(
                                                 width: 115.w,
                                                 height: 100.h,

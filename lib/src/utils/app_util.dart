@@ -1,7 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 class AppUtil {
   AppUtil._privateConstructor();
 
   bool isLogin = false;
+  bool isAllowLogin = true;
+  User? user;
   String? apiKey;
   bool isJustUpdatedApiKey = false;
   String userRecommendationKeySearch = "movie";

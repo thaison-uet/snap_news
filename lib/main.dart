@@ -8,9 +8,14 @@ import 'src/core/helpers/helper_routes_parh.dart';
 import 'src/core/helpers/helper_utils.dart';
 import 'src/injector.dart';
 import 'src/presentation/home/bloc/theme/theme_mode_bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() async {
+Future<void> main() async {
   await init();
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(const MyApp());
 }
