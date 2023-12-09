@@ -109,10 +109,7 @@ class _HomeViewState extends State<HomeView> {
                   elevation: 0,
                 ),
                 child: Image.asset("assets/icons/ic_sign_out.png",
-                    width: 24.w,
-                    height: 24.h,
-                    color:
-                        Guide.isDark(context) ? darkThemeText : colorsBlack)),
+                    width: 24.w, height: 24.h, color: colorPrimary)),
           ],
         ),
         body: Stack(children: [

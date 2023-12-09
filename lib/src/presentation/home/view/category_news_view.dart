@@ -55,14 +55,13 @@ class _CategoryNewsViewState extends State<CategoryNewsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 70,
-        elevation: 0,
-        backgroundColor: Guide.isDark(context) ? colorsBlack : colorWhite,
-        centerTitle: true,
-        title: Text(Guide.capitalize(widget.category.category))
-            .boldSized(16)
-            .colors(Guide.isDark(context) ? darkThemeText : colorsBlack),
-      ),
+          toolbarHeight: 70,
+          elevation: 0,
+          backgroundColor: Guide.isDark(context) ? colorsBlack : colorWhite,
+          centerTitle: true,
+          title: Text(Guide.capitalize(widget.category.category))
+              .boldSized(16)
+              .colors(Guide.isDark(context) ? darkThemeText : colorsBlack)),
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {

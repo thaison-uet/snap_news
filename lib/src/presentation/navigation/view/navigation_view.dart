@@ -29,8 +29,7 @@ class NavigationViews extends StatelessWidget {
         create: (_) => sl<HomeNewsBloc>()
           ..add(
             const GetRecommendationNews(
-              query: "technology",
-              limit: 7,
+              limit: 20,
               page: 1,
             ),
           ),

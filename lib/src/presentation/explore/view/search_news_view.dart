@@ -49,7 +49,7 @@ class _SearchNewsViewState extends State<SearchNewsView> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(
-            Icons.arrow_back_ios,
+            Icons.arrow_back,
             color: colorWhite,
           ),
           onPressed: () => Guide.back(),
@@ -97,19 +97,18 @@ class _SearchNewsViewState extends State<SearchNewsView> {
         ),
         actions: [
           IconButton(
-            onPressed: () => context.read<ExploreNewsBloc>().add(
-                  ExploreSearchNews(
-                    query: textEditingController.text,
-                    page: 1,
+              onPressed: () => context.read<ExploreNewsBloc>().add(
+                    ExploreSearchNews(
+                      query: textEditingController.text,
+                      page: 1,
+                    ),
                   ),
-                ),
-            icon: SvgPicture.asset(
-              "assets/icons/search_solid.svg",
-              height: 24.h,
-              width: 24.w,
-              color: colorWhite,
-            ),
-          )
+              icon: SvgPicture.asset(
+                "assets/icons/search_line.svg",
+                height: 24.h,
+                width: 24.w,
+                color: colorWhite,
+              ))
         ],
       ),
       body: SafeArea(

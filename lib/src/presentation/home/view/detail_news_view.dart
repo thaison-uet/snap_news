@@ -45,7 +45,7 @@ class DetailNewsView extends StatelessWidget {
               leading: IconButton(
                 onPressed: () => Navigator.of(context).pop(),
                 icon: Icon(
-                  Icons.arrow_back_ios_new,
+                  Icons.arrow_back,
                   color: Guide.isDark(context) ? colorPrimary : colorPrimary,
                 ),
               ),
@@ -246,7 +246,7 @@ class DetailNewsView extends StatelessWidget {
                           onTap: () => openNews(response[0].url),
                           child: Container(
                               width: double.infinity,
-                              height: 20,
+                              height: 28,
                               color: transparent),
                         )
                       ]),

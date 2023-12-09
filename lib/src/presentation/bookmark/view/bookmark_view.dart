@@ -37,11 +37,11 @@ class _BookmarkViewState extends State<BookmarkView> {
           children: [
             const Text(
               "Bookmarks",
-            ).blackSized(26).colors(
-                  Guide.isDark(context) ? darkThemeText : colorsBlack,
-                ),
+            )
+                .blackSized(26)
+                .colors(Guide.isDark(context) ? darkThemeText : colorsBlack),
             const Text("Save your time by using bookmarks")
-                .boldSized(10)
+                .boldSized(12)
                 .colors(
                   Guide.isDark(context) ? darkThemeText : colorTextGray,
                 ),
@@ -150,141 +150,111 @@ class _BookmarkViewState extends State<BookmarkView> {
                                   padding:
                                       EdgeInsets.symmetric(horizontal: 15.w),
                                   child: Container(
-                                    height: 120.h,
+                                    width: double.infinity,
+                                    height: 85.h,
                                     margin: EdgeInsets.only(top: 8.h),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      color: Guide.isDark(context)
-                                          ? colorsBlack
-                                          : colorWhite,
-                                      border: Border.all(
-                                        width: 0.5,
-                                        color: Guide.isDark(context)
-                                            ? Colors.grey.withOpacity(0.5)
-                                            : borderGray,
-                                      ),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10.r),
-                                          child: SizedBox(
-                                            width: 120.w,
-                                            height: 120.h,
-                                            child: imageUrl.isNotEmpty
-                                                ? CachedNetworkImage(
-                                                    imageUrl: imageUrl,
-                                                    imageBuilder: (c, image) =>
-                                                        Container(
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            image:
-                                                                DecorationImage(
-                                                              image: image,
-                                                              fit: BoxFit.cover,
-                                                            ),
+                                    child: Row(children: [
+                                      ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(10.r),
+                                        child: SizedBox(
+                                          width: 100.w,
+                                          height: 85.h,
+                                          child: imageUrl.isNotEmpty
+                                              ? CachedNetworkImage(
+                                                  imageUrl: imageUrl,
+                                                  imageBuilder: (c, image) =>
+                                                      Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          image:
+                                                              DecorationImage(
+                                                            image: image,
+                                                            fit: BoxFit.cover,
                                                           ),
                                                         ),
-                                                    errorWidget:
-                                                        (context, url, error) {
-                                                      print(
-                                                          'CachedNetworkImage error: ${CachedNetworkImage}');
-                                                      return Image.asset(
-                                                          width: 115.w,
-                                                          height: 100.h,
-                                                          CommonConstants
-                                                              .emptyImagePath,
-                                                          fit: BoxFit.contain);
-                                                    })
-                                                : Image.asset(
-                                                    width: 120.w,
-                                                    height: 120.h,
-                                                    CommonConstants
-                                                        .emptyImagePath,
-                                                    fit: BoxFit.contain),
-                                          ),
+                                                      ),
+                                                  errorWidget:
+                                                      (context, url, error) {
+                                                    print(
+                                                        'CachedNetworkImage error: ${error.toString()}');
+                                                    return Image.asset(
+                                                        width: 115.w,
+                                                        height: 100.h,
+                                                        CommonConstants
+                                                            .emptyImagePath,
+                                                        fit: BoxFit.contain);
+                                                  })
+                                              : Image.asset(
+                                                  width: 120.w,
+                                                  height: 120.h,
+                                                  CommonConstants
+                                                      .emptyImagePath,
+                                                  fit: BoxFit.contain),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: 8.w,
-                                            vertical: 8.h,
-                                          ),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              SizedBox(
-                                                width: 220.w,
-                                                child: Text(
-                                                  data[index].title,
-                                                  maxLines: 2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ).boldSized(14).colors(
-                                                      Guide.isDark(context)
-                                                          ? darkThemeText
-                                                          : colorsBlack,
-                                                    ),
-                                              ),
-                                              SizedBox(
-                                                width: 220.w,
-                                                child: Text(
-                                                  data[index].description,
-                                                  maxLines: 3,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ).normalSized(12).colors(
-                                                      Guide.isDark(context)
-                                                          ? darkThemeText
-                                                          : colorsBlack,
-                                                    ),
-                                              ),
-                                              SizedBox(
-                                                width: 210.w,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        CircleAvatar(
-                                                          radius: 10.r,
-                                                          backgroundColor:
-                                                              colorPrimary,
-                                                          backgroundImage:
-                                                              AssetImage(
-                                                                  "assets/profile/${Random().nextInt(4) + 1}.jpg"),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 7.w,
-                                                        ),
-                                                        Text(data[index]
-                                                                .source
-                                                                .name)
+                                      ),
+                                      Expanded(
+                                          child: Container(
+                                        height: 85.h,
+                                        padding: EdgeInsets.fromLTRB(
+                                            14.w, 8.h, 0.w, 8.h),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: double.infinity,
+                                              child: Text(
+                                                data[index].title,
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                              ).blackSized(14).colors(
+                                                    Guide.isDark(context)
+                                                        ? darkThemeText
+                                                        : colorsBlack,
+                                                  ),
+                                            ),
+                                            SizedBox(
+                                              height: 5.h,
+                                            ),
+                                            SizedBox(
+                                              width: double.infinity,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        data[index].source.name,
+                                                      )
+                                                          .boldSized(10)
+                                                          .colors(colorTextGray)
+                                                    ],
+                                                  ),
+                                                  Expanded(
+                                                    child: Align(
+                                                        alignment: Alignment
+                                                            .centerRight,
+                                                        child: Text(timeago
+                                                                .format(data[
+                                                                        index]
+                                                                    .publishedAt))
                                                             .boldSized(10)
                                                             .colors(
-                                                                colorTextGray)
-                                                      ],
-                                                    ),
-                                                    Text(
-                                                      timeago.format(
-                                                        data[index].publishedAt,
-                                                      ),
-                                                    )
-                                                        .boldSized(10)
-                                                        .colors(colorTextGray),
-                                                  ],
-                                                ),
+                                                              colorTextGray,
+                                                            )),
+                                                  )
+                                                ],
                                               ),
-                                            ],
-                                          ),
+                                            )
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ))
+                                    ]),
                                   ),
                                 ),
                               ),

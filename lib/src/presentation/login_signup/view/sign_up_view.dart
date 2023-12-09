@@ -32,15 +32,13 @@ class _SignUpViewState extends State<SignUpView> {
               Container(
                 margin: const EdgeInsets.only(top: 52, left: 18),
                 child: GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  behavior: HitTestBehavior.opaque,
-                  child: Image.asset(
-                    "assets/icons/ic_back.png",
-                    color: colorPrimary,
-                    width: 22,
-                    height: 22,
-                  ),
-                ),
+                    onTap: () => Navigator.pop(context),
+                    behavior: HitTestBehavior.opaque,
+                    child: Icon(
+                      Icons.arrow_back,
+                      color:
+                          Guide.isDark(context) ? colorPrimary : colorPrimary,
+                    )),
               ),
               Expanded(
                 child: Align(

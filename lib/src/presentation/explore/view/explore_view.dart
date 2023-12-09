@@ -38,12 +38,10 @@ class _ExploreViewsState extends State<ExploreViews> {
               primary: Guide.isDark(context) ? colorsBlack : colorWhite,
               elevation: 0,
             ),
-            child: SvgPicture.asset(
-              "assets/icons/search_line.svg",
-              height: 24.h,
-              width: 24.w,
-              color: Guide.isDark(context) ? darkThemeText : colorsBlack,
-            ),
+            child: SvgPicture.asset("assets/icons/search_line.svg",
+                height: 24.h,
+                width: 24.w,
+                color: Guide.isDark(context) ? darkThemeText : colorsBlack),
           ),
         ],
         title: Column(
@@ -51,10 +49,10 @@ class _ExploreViewsState extends State<ExploreViews> {
           children: [
             const Text(
               "Discover",
-            ).blackSized(26).colors(
-                  Guide.isDark(context) ? darkThemeText : colorTextGray,
-                ),
-            const Text("Search all news around the world").boldSized(10).colors(
+            )
+                .blackSized(26)
+                .colors(Guide.isDark(context) ? darkThemeText : colorsBlack),
+            const Text("Search all news around the world").boldSized(12).colors(
                   Guide.isDark(context) ? darkThemeText : colorTextGray,
                 ),
           ],
@@ -81,8 +79,7 @@ class _ExploreViewsState extends State<ExploreViews> {
             onRefresh: () async {
               context.read<HomeNewsBloc>().add(
                     const GetRecommendationNews(
-                      query: "technology",
-                      limit: 7,
+                      limit: 20,
                       page: 1,
                     ),
                   );
@@ -145,37 +142,23 @@ class _ExploreViewsState extends State<ExploreViews> {
                                         arguments: recommendation[index],
                                       ),
                                       child: Container(
-                                        margin: EdgeInsets.symmetric(
-                                          horizontal: 15.w,
-                                          vertical: 5.h,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10.r),
-                                          border: Border.all(
-                                            color: index <= 2
-                                                ? Guide.isDark(context)
-                                                    ? Colors.grey
-                                                        .withOpacity(0.3)
-                                                    : borderGray
-                                                : Guide.isDark(context)
-                                                    ? Colors.grey
-                                                        .withOpacity(0.3)
-                                                    : borderGray,
-                                            width: 1,
-                                          ),
-                                          color: Guide.isDark(context)
-                                              ? colorsBlack
-                                              : colorWhite,
-                                        ),
+                                        // margin: EdgeInsets.symmetric(
+                                        //   horizontal: 15.w,
+                                        //   vertical: 5.h,
+                                        // ),
+                                        margin: EdgeInsets.only(
+                                            top: 5.h,
+                                            left: 15.w,
+                                            right: 15.w,
+                                            bottom: 10.h),
                                         child: Row(
                                           children: [
                                             ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(10.r),
                                               child: SizedBox(
-                                                width: 140.w,
-                                                height: 110.h,
+                                                width: 100.w,
+                                                height: 85.h,
                                                 child: recommendation[index]
                                                         .urlToImage
                                                         .isNotEmpty
@@ -193,127 +176,99 @@ class _ExploreViewsState extends State<ExploreViews> {
                                                                     DecorationImage(
                                                                   image: image,
                                                                   fit: BoxFit
-                                                                      .fill,
+                                                                      .cover,
                                                                 ),
                                                               ),
                                                             ),
-                                                        errorWidget:
-                                                            (context, url,
-                                                                error) {
+                                                        errorWidget: (context,
+                                                            url, error) {
                                                           print(
-                                                              'CachedNetworkImage error: ${CachedNetworkImage}');
+                                                              'CachedNetworkImage error: ${error.toString()}');
                                                           return Image.asset(
                                                               width: 115.w,
-                                                              height: 100.h,
+                                                              height: 85.h,
                                                               CommonConstants
                                                                   .emptyImagePath,
                                                               fit: BoxFit
                                                                   .contain);
                                                         })
-                                                    : Image.asset(
-                                                        width: 140.w,
-                                                        height: 110.h,
-                                                        CommonConstants
-                                                            .emptyImagePath,
-                                                        fit: BoxFit.contain),
+                                                    : Image
+                                                        .asset(
+                                                            width: 140.w,
+                                                            height: 85.h,
+                                                            CommonConstants
+                                                                .emptyImagePath,
+                                                            fit: BoxFit.fill),
                                               ),
                                             ),
-                                            Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                horizontal: 10.w,
-                                                vertical: 5.h,
-                                              ),
-                                              child: SizedBox(
-                                                height: 100.h,
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    SizedBox(
-                                                      width: 180.w,
-                                                      child: Text(
-                                                        recommendation[index]
-                                                            .title,
-                                                        maxLines: 2,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                      ).blackSized(14).colors(
-                                                            Guide.isDark(
-                                                                    context)
-                                                                ? darkThemeText
-                                                                : colorsBlack,
-                                                          ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5.h,
-                                                    ),
-                                                    SizedBox(
-                                                      width: 175.w,
-                                                      child: Text(
-                                                        recommendation[index]
-                                                            .description,
-                                                        maxLines: 3,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                      ).boldSized(9).colors(
-                                                            Guide.isDark(
-                                                                    context)
-                                                                ? darkThemeText
-                                                                : colorsBlack,
-                                                          ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5.h,
-                                                    ),
-                                                    SizedBox(
-                                                      width: 180.w,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              CircleAvatar(
-                                                                radius: 10.r,
-                                                                backgroundColor:
-                                                                    colorPrimary,
-                                                                backgroundImage:
-                                                                    AssetImage(
-                                                                        "assets/profile/${Random().nextInt(4) + 1}.jpg"),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 7.w,
-                                                              ),
-                                                              Text(
-                                                                recommendation[
-                                                                        index]
-                                                                    .source
-                                                                    .name,
-                                                              )
+                                            Expanded(
+                                                child: Container(
+                                              height: 85.h,
+                                              padding: EdgeInsets.fromLTRB(
+                                                  14.w, 8.h, 0.w, 8.h),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  SizedBox(
+                                                    width: double.infinity,
+                                                    child: Text(
+                                                      recommendation[index]
+                                                          .title,
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ).blackSized(14).colors(
+                                                          Guide.isDark(context)
+                                                              ? darkThemeText
+                                                              : colorsBlack,
+                                                        ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5.h,
+                                                  ),
+                                                  SizedBox(
+                                                    width: double.infinity,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              recommendation[
+                                                                      index]
+                                                                  .source
+                                                                  .name,
+                                                            )
+                                                                .boldSized(10)
+                                                                .colors(
+                                                                    colorTextGray)
+                                                          ],
+                                                        ),
+                                                        Expanded(
+                                                          child: Align(
+                                                              alignment: Alignment
+                                                                  .centerRight,
+                                                              child: Text(timeago.format(
+                                                                      recommendation[
+                                                                              index]
+                                                                          .publishedAt))
                                                                   .boldSized(10)
                                                                   .colors(
-                                                                      colorTextGray)
-                                                            ],
-                                                          ),
-                                                          Text(timeago.format(
-                                                                  recommendation[
-                                                                          index]
-                                                                      .publishedAt))
-                                                              .boldSized(10)
-                                                              .colors(
-                                                                colorTextGray,
-                                                              ),
-                                                        ],
-                                                      ),
+                                                                    colorTextGray,
+                                                                  )),
+                                                        )
+                                                      ],
                                                     ),
-                                                  ],
-                                                ),
+                                                  )
+                                                ],
                                               ),
-                                            ),
+                                            ))
                                           ],
                                         ),
                                       ),
