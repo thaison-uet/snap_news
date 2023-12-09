@@ -65,13 +65,10 @@ class _ExploreViewsState extends State<ExploreViews> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: Guide.isDark(context)
-                  ? [
-                      colorsBlack,
-                      colorsBlackGray,
-                    ]
+                  ? [colorsBlack, colorsBlack]
                   : [
                       colorWhite,
-                      colorGray,
+                      colorWhite,
                     ],
             ),
           ),

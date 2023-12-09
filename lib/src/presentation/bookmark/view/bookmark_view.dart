@@ -61,11 +61,11 @@ class _BookmarkViewState extends State<BookmarkView> {
                 colors: Guide.isDark(context)
                     ? [
                         colorsBlack,
-                        colorsBlackGray,
+                        colorsBlack,
                       ]
                     : [
                         colorWhite,
-                        colorGray,
+                        colorWhite,
                       ],
               ),
             ),
