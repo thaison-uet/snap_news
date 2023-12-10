@@ -783,13 +783,13 @@ class _HomeViewState extends State<HomeView> {
 
   Widget _categorySliderWidget() {
     List category = [
-      Categorytype.business.name,
-      Categorytype.entertainment.name,
-      Categorytype.general.name,
-      Categorytype.health.name,
-      Categorytype.science.name,
-      Categorytype.sports.name,
-      Categorytype.technology.name
+      CategoryType.business.name,
+      CategoryType.entertainment.name,
+      CategoryType.general.name,
+      CategoryType.health.name,
+      CategoryType.science.name,
+      CategoryType.sports.name,
+      CategoryType.technology.name
     ];
     return BlocBuilder<HomeNewsBloc, HomeNewsState>(
       builder: (_, state) {

@@ -33,7 +33,7 @@ class NewsModel {
 @JsonSerializable(explicitToJson: true)
 class NewsArticleModel {
   final NewsArticleSourceModel source;
-  @JsonKey(defaultValue: "Antonio Fernandez")
+  @JsonKey(defaultValue: "Shin")
   final String author;
   @JsonKey(defaultValue: "")
   final String title;

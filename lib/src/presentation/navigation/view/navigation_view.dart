@@ -9,6 +9,7 @@ import '../../../core/components/component_theme.dart';
 import '../../../injector.dart';
 import '../../bookmark/bloc/bookmark/bookmark_news_bloc.dart';
 import '../../bookmark/view/bookmark_view.dart';
+import '../../category/view/category_view.dart';
 import '../../explore/view/explore_view.dart';
 import '../../home/view/home_view.dart';
 
@@ -35,6 +36,16 @@ class NavigationViews extends StatelessWidget {
             ),
           ),
         child: const ExploreViews(),
+      ),
+      BlocProvider(
+        create: (_) => sl<HomeNewsBloc>()
+          ..add(
+            const GetEverythingNews(
+              limit: 20,
+              page: 1,
+            ),
+          ),
+        child: CategoryViews(),
       ),
       BlocProvider(
         create: (_) => sl<BookmarkNewsBloc>()
@@ -78,6 +89,19 @@ class NavigationViews extends StatelessWidget {
           color: Theme.of(context).brightness == Brightness.dark
               ? colorWhite
               : colorsBlack,
+        ),
+      ),
+      PersistentBottomNavBarItem(
+        icon: Image.asset(
+          "assets/icons/ic_category_enabled.png",
+          width: 20.w,
+          height: 20.w,
+          color: colorPrimary,
+        ),
+        inactiveIcon: Image.asset(
+          "assets/icons/ic_category_disabled.png",
+          width: 20.w,
+          height: 20.w,
         ),
       ),
       PersistentBottomNavBarItem(

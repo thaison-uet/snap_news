@@ -12,6 +12,13 @@ const Color colorSecondary = Color(0xFFFFFFFF);
 const Color colorSecondaryReadMode = Color(0xFFDFCEBC);
 const Color transparent = Color(0x00000000);
 const Color colorStar = Color(0xFFFFCE16);
+Color colorGeneralCover = const Color(0xFF797d62).withOpacity(0.6);
+Color colorHealthCover = const Color(0xFF9b9b7a).withOpacity(0.6);
+Color colorBusinessCover = const Color(0xFFd9ae94).withOpacity(0.6);
+Color colorSportsCover = const Color(0xFFf1dca7).withOpacity(0.6);
+Color colorScienceCover = const Color(0xFFffcb69).withOpacity(0.6);
+Color colorEntertainmentCover = const Color(0xFFd08c60).withOpacity(0.6);
+Color colorTechnologyCover = const Color(0xFF997b66).withOpacity(0.6);
 
 const Color colorsBlack = Color(0xFF000000);
 const Color colorsBlackGray = Color.fromARGB(255, 27, 27, 27);
