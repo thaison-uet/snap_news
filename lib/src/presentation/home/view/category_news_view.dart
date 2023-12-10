@@ -183,27 +183,16 @@ class _CategoryNewsViewState extends State<CategoryNewsView> {
                                 arguments: data[index],
                               ),
                               child: Container(
-                                height: 100.h,
+                                height: 85.h,
                                 margin: EdgeInsets.symmetric(
                                     vertical: 4.h, horizontal: 15.w),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.r),
-                                  color: Guide.isDark(context)
-                                      ? colorsBlack
-                                      : colorWhite,
-                                  border: Border.all(
-                                    color: Guide.isDark(context)
-                                        ? Colors.grey.withOpacity(0.2)
-                                        : borderGray,
-                                  ),
-                                ),
                                 child: Row(
                                   children: [
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(10.r),
                                       child: SizedBox(
-                                        width: 115.w,
-                                        height: 100.h,
+                                        width: 100.w,
+                                        height: 85.h,
                                         child: imageUrl.isNotEmpty
                                             ? CachedNetworkImage(
                                                 imageUrl: imageUrl,
@@ -222,14 +211,14 @@ class _CategoryNewsViewState extends State<CategoryNewsView> {
                                                       'CachedNetworkImage error: ${CachedNetworkImage}');
                                                   return Image.asset(
                                                       width: 115.w,
-                                                      height: 100.h,
+                                                      height: 85.h,
                                                       CommonConstants
                                                           .emptyImagePath,
                                                       fit: BoxFit.contain);
                                                 })
                                             : Image.asset(
-                                                width: 115.w,
-                                                height: 100.h,
+                                                width: 100.w,
+                                                height: 85.h,
                                                 CommonConstants.emptyImagePath,
                                                 fit: BoxFit.contain),
                                       ),
@@ -249,25 +238,12 @@ class _CategoryNewsViewState extends State<CategoryNewsView> {
                                             width: 220.w,
                                             child: Text(
                                               data[index].title,
-                                              maxLines: 1,
+                                              maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                             ).boldSized(14).colors(
                                                 Guide.isDark(context)
                                                     ? darkThemeText
                                                     : colorsBlack),
-                                          ),
-                                          SizedBox(
-                                            width: 220.w,
-                                            child: Text(
-                                              data[index].description,
-                                              maxLines: 3,
-                                              textAlign: TextAlign.justify,
-                                              overflow: TextOverflow.ellipsis,
-                                            ).normalSized(12).colors(
-                                                  Guide.isDark(context)
-                                                      ? darkThemeText
-                                                      : colorsBlack,
-                                                ),
                                           ),
                                           SizedBox(
                                             width: 210.w,
@@ -278,18 +254,6 @@ class _CategoryNewsViewState extends State<CategoryNewsView> {
                                               children: [
                                                 Row(
                                                   children: [
-                                                    CircleAvatar(
-                                                      radius: 10.r,
-                                                      backgroundColor:
-                                                          colorPrimary,
-                                                      backgroundImage:
-                                                          AssetImage(
-                                                        "assets/profile/${Random().nextInt(4) + 1}.jpg",
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 7.w,
-                                                    ),
                                                     SizedBox(
                                                       width: 110.w,
                                                       child: Text(
