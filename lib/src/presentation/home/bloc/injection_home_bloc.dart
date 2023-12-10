@@ -12,6 +12,9 @@ class HomeBlocInjection {
     sl.registerFactory(
         () => CategoryNewsBloc(headlinesCase: sl(), recommendationCase: sl()));
     sl.registerFactory(() => HomeNewsBloc(
-        getTrendingCase: sl(), hotCase: sl(), recommendationCase: sl()));
+        getTrendingCase: sl(),
+        hotCase: sl(),
+        recommendationCase: sl(),
+        everythingCase: sl()));
   }
 }

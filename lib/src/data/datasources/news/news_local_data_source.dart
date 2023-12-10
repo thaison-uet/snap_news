@@ -11,11 +11,14 @@ abstract class NewsLocalDataSource {
   Future<NewsModel> getHotNews();
   Future<void> cacheRecommendation(NewsModel news);
   Future<NewsModel> getRecommendation();
+  Future<void> cacheEverything(NewsModel news);
+  Future<NewsModel> getEverything();
 }
 
 const CACHE_TRENDING = 'CACHE_TRENDING';
 const CACHE_RECOMMENDATION = 'CACHE_RECOMMENDATION';
 const CACHE_HOT = 'CACHE_HOT';
+const CACHE_EVERYTHING = 'CACHE_EVERYTHING';
 
 class NewsLocalDataSourceImpl implements NewsLocalDataSource {
   final StorageHelper storage;
@@ -85,6 +88,29 @@ class NewsLocalDataSourceImpl implements NewsLocalDataSource {
   @override
   Future<NewsModel> getRecommendation() async {
     final jsonString = await storage.read(CACHE_RECOMMENDATION);
+    if (jsonString != null) {
+      return NewsModel.fromJson(json.decode(jsonString));
+    } else {
+      throw CacheException();
+    }
+  }
+
+  @override
+  Future<void> cacheEverything(NewsModel news) async {
+    await storage.write(
+      StorageItems(
+        key: CACHE_EVERYTHING,
+        value: json.encode(
+          news.toJson(),
+        ),
+      ),
+    );
+    return;
+  }
+
+  @override
+  Future<NewsModel> getEverything() async {
+    final jsonString = await storage.read(CACHE_EVERYTHING);
     if (jsonString != null) {
       return NewsModel.fromJson(json.decode(jsonString));
     } else {

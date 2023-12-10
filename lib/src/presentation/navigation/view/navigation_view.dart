@@ -22,13 +22,14 @@ class NavigationViews extends StatelessWidget {
           ..add(const GetTrendingNews())
           ..add(const GetHotNews())
           ..add(const GetRecommendationNews()),
+        // ..add(const GetEverythingNews()),
         child: HomeView(),
       ),
       // const HomeView(),
       BlocProvider(
         create: (_) => sl<HomeNewsBloc>()
           ..add(
-            const GetRecommendationNews(
+            const GetEverythingNews(
               limit: 20,
               page: 1,
             ),

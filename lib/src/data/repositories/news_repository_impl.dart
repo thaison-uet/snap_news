@@ -13,6 +13,55 @@ class NewsRepositoryImpl implements NewsRepository {
   final NetworkChecher network;
 
   NewsRepositoryImpl(this.localSource, this.remoteSource, this.network);
+
+  @override
+  Future<Either<Failure, NewsEntities>> getEverything(
+      {String? query, int? limit, int? page}) async {
+    if (await network.isConnected) {
+      try {
+        final remote = await remoteSource.getNewGlobal(
+          isHeadlines: false,
+          query: query = "a",
+          page: page ?? 1,
+          limit: limit ?? 10,
+        );
+        await localSource.cacheEverything(remote);
+        return Right(remote.toEntity());
+      } on DioError catch (e) {
+        return Left(
+          NetworkFailure(
+            responseException: ResponseException.getDioException(e),
+          ),
+        );
+      } catch (e) {
+        return Left(
+          NetworkFailure(
+            responseException: ResponseException.getDioException(e),
+          ),
+        );
+      }
+    } else {
+      try {
+        final local = await localSource.getEverything();
+        return Right(local.toEntity());
+      } on CacheException catch (_) {
+        return Left(
+          CacheFailure(
+            message: "Failed to get all News",
+          ),
+        );
+      } catch (_) {
+        return Left(
+          NetworkFailure(
+            responseException: ResponseException.error(
+              type: EResponseException.NOINTERNETCONNECTION,
+            ),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Future<Either<Failure, NewsEntities>> getRecommendation(
       {String? query, int? limit, int? page}) async {
@@ -46,7 +95,7 @@ class NewsRepositoryImpl implements NewsRepository {
       } on CacheException catch (_) {
         return Left(
           CacheFailure(
-            message: "Failed to get Trending News",
+            message: "Failed to get recommendation News",
           ),
         );
       } catch (_) {
@@ -178,7 +227,7 @@ class NewsRepositoryImpl implements NewsRepository {
       } on CacheException catch (_) {
         return Left(
           CacheFailure(
-            message: "Failed to get Trending News",
+            message: "Failed to get hot News",
           ),
         );
       } catch (_) {

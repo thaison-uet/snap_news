@@ -8,7 +8,7 @@ class AppUtil {
   User? user;
   String? apiKey;
   bool isJustUpdatedApiKey = false;
-  String userRecommendationKeySearch = "movie";
+  String userRecommendationKeySearch = "flutter";
 
   static final AppUtil _instance = AppUtil._privateConstructor();
 

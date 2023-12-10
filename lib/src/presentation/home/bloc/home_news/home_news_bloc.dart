@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:news_app/src/domain/usecases/news/get_everything_case.dart';
 
 import '../../../../core/core.dart';
 import '../../../../domain/domain.dart';
@@ -12,13 +13,16 @@ class HomeNewsBloc extends Bloc<HomeNewsEvent, HomeNewsState> {
   final GetTrendingCase getTrendingCase;
   final GetHotCase hotCase;
   final GetRecommendationCase recommendationCase;
+  final GetEverythingCase everythingCase;
   HomeNewsBloc({
     required this.getTrendingCase,
     required this.hotCase,
     required this.recommendationCase,
+    required this.everythingCase,
   }) : super(const HomeNewsState()) {
     on<HomeNewsEvent>((event, emit) {});
     on<GetRecommendationNews>(_onGetRecommendationNews);
+    on<GetEverythingNews>(_onGetEverythingNews);
     on<GetHotNews>(_onGetHotNews);
     on<GetTrendingNews>(_onGetTrendingNews);
   }
@@ -43,6 +47,34 @@ class HomeNewsBloc extends Bloc<HomeNewsEvent, HomeNewsState> {
       ),
     );
     return;
+  }
+
+  void _onGetEverythingNews(
+      GetEverythingNews event, Emitter<HomeNewsState> emit) async {
+    emit(state.copyWith(statusEverything: HomeBlocStatus.loading));
+
+    await everythingCase(
+      GetEverythingParams(
+        query: event.query,
+        limit: event.limit,
+        page: event.page,
+      ),
+    ).then(
+      (value) => value.fold(
+        (l) => emit(
+          state.copyWith(
+            message: Guide.failureToMessage(l),
+            statusEverything: HomeBlocStatus.failure,
+          ),
+        ),
+        (r) => emit(
+          state.copyWith(
+            statusEverything: HomeBlocStatus.loaded,
+            everything: r,
+          ),
+        ),
+      ),
+    );
   }
 
   void _onGetRecommendationNews(

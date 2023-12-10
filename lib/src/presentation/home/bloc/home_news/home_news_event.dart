@@ -34,3 +34,17 @@ class GetRecommendationNews extends HomeNewsEvent {
   @override
   List<Object?> get props => [query, limit, page];
 }
+
+class GetEverythingNews extends HomeNewsEvent {
+  final String? query;
+  final int? limit;
+  final int? page;
+  const GetEverythingNews({
+    this.query,
+    this.limit,
+    this.page,
+  });
+
+  @override
+  List<Object?> get props => [query, limit, page];
+}

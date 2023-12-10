@@ -3,6 +3,11 @@ import 'package:news_app/src/core/core.dart';
 import 'package:news_app/src/domain/entitites/news_entities.dart';
 
 abstract class NewsRepository {
+  Future<Either<Failure, NewsEntities>> getEverything({
+    String? query,
+    int? limit,
+    int? page,
+  });
   Future<Either<Failure, NewsEntities>> getTrending();
   Future<Either<Failure, NewsEntities>> searchNews({
     required String keyword,

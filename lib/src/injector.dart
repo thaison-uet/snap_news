@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:news_app/src/data/datasources/network/network_local_data_source.dart';
 import 'package:news_app/src/domain/usecases/bookmarks/remove_bookmark_case.dart';
+import 'package:news_app/src/domain/usecases/news/get_everything_case.dart';
 
 import 'core/core.dart';
 import 'data/datasources/bookmarks/bookmarks_local_data_source.dart';
@@ -44,6 +45,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetTrendingCase(sl()));
   sl.registerLazySingleton(() => GetHotCase(sl()));
   sl.registerLazySingleton(() => GetRecommendationCase(sl()));
+  sl.registerLazySingleton(() => GetEverythingCase(sl()));
   sl.registerLazySingleton(() => GetHeadlinesCase(sl()));
   sl.registerLazySingleton(() => SearchNewsCase(sl()));
 

@@ -54,6 +54,7 @@ class _BookmarkViewState extends State<BookmarkView> {
             context.read<BookmarkNewsBloc>().add(const BookmarkNewsGetEvent());
           },
           child: Container(
+            padding: EdgeInsets.only(top: 10.h),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -119,7 +120,7 @@ class _BookmarkViewState extends State<BookmarkView> {
                                     );
                               },
                               background: Container(
-                                color: Colors.red,
+                                color: colorPrimary,
                                 alignment: Alignment.centerRight,
                               ),
                               secondaryBackground: Container(
@@ -127,7 +128,7 @@ class _BookmarkViewState extends State<BookmarkView> {
                                 padding: EdgeInsets.symmetric(horizontal: 20.w),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.r),
-                                  color: Colors.red,
+                                  color: colorPrimary,
                                   border: Border.all(
                                     width: 0.5,
                                     color: Guide.isDark(context)
@@ -138,7 +139,8 @@ class _BookmarkViewState extends State<BookmarkView> {
                                 alignment: Alignment.centerRight,
                                 child: Icon(
                                   Icons.delete,
-                                  size: 30.h,
+                                  size: 28.h,
+                                  color: colorWhite,
                                 ),
                               ),
                               child: GestureDetector(
@@ -152,7 +154,11 @@ class _BookmarkViewState extends State<BookmarkView> {
                                   child: Container(
                                     width: double.infinity,
                                     height: 85.h,
-                                    margin: EdgeInsets.only(top: 8.h),
+                                    margin: EdgeInsets.only(
+                                        top: 5.h,
+                                        left: 0.w,
+                                        right: 0.w,
+                                        bottom: 10.h),
                                     child: Row(children: [
                                       ClipRRect(
                                         borderRadius:
@@ -274,7 +280,7 @@ class _BookmarkViewState extends State<BookmarkView> {
                                 height: 20.h,
                               ),
                               const Text("There is no data saved")
-                                  .boldSized(20)
+                                  .boldSized(16)
                                   .colors(
                                     Guide.isDark(context)
                                         ? darkThemeText

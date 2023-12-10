@@ -75,7 +75,7 @@ class _ExploreViewsState extends State<ExploreViews> {
           child: RefreshIndicator(
             onRefresh: () async {
               context.read<HomeNewsBloc>().add(
-                    const GetRecommendationNews(
+                    const GetEverythingNews(
                       limit: 20,
                       page: 1,
                     ),
@@ -90,8 +90,7 @@ class _ExploreViewsState extends State<ExploreViews> {
                   ),
                   BlocBuilder<HomeNewsBloc, HomeNewsState>(
                     builder: (_, state) {
-                      if (state.statusRecommendation ==
-                          HomeBlocStatus.loading) {
+                      if (state.statusEverything == HomeBlocStatus.loading) {
                         List loading = [1, 2, 3, 4, 5, 6];
                         return SingleChildScrollView(
                           scrollDirection: Axis.vertical,
@@ -122,13 +121,13 @@ class _ExploreViewsState extends State<ExploreViews> {
                         );
                       }
 
-                      if (state.statusRecommendation == HomeBlocStatus.loaded) {
-                        List<NewsArticleEntities> recommendation =
-                            state.recommendation?.articles ?? [];
+                      if (state.statusEverything == HomeBlocStatus.loaded) {
+                        List<NewsArticleEntities> everything =
+                            state.everything?.articles ?? [];
                         return SingleChildScrollView(
                           scrollDirection: Axis.vertical,
                           child: Column(
-                            children: recommendation
+                            children: everything
                                 .asMap()
                                 .map(
                                   (index, value) => MapEntry(
@@ -136,7 +135,7 @@ class _ExploreViewsState extends State<ExploreViews> {
                                     GestureDetector(
                                       onTap: () => Guide.to(
                                         name: detail,
-                                        arguments: recommendation[index],
+                                        arguments: everything[index],
                                       ),
                                       child: Container(
                                         // margin: EdgeInsets.symmetric(
@@ -156,13 +155,12 @@ class _ExploreViewsState extends State<ExploreViews> {
                                               child: SizedBox(
                                                 width: 100.w,
                                                 height: 85.h,
-                                                child: recommendation[index]
+                                                child: everything[index]
                                                         .urlToImage
                                                         .isNotEmpty
                                                     ? CachedNetworkImage(
                                                         imageUrl:
-                                                            recommendation[
-                                                                    index]
+                                                            everything[index]
                                                                 .urlToImage,
                                                         imageBuilder: (c,
                                                                 image) =>
@@ -189,13 +187,12 @@ class _ExploreViewsState extends State<ExploreViews> {
                                                               fit: BoxFit
                                                                   .contain);
                                                         })
-                                                    : Image
-                                                        .asset(
-                                                            width: 140.w,
-                                                            height: 85.h,
-                                                            CommonConstants
-                                                                .emptyImagePath,
-                                                            fit: BoxFit.fill),
+                                                    : Image.asset(
+                                                        width: 140.w,
+                                                        height: 85.h,
+                                                        CommonConstants
+                                                            .emptyImagePath,
+                                                        fit: BoxFit.fill),
                                               ),
                                             ),
                                             Expanded(
@@ -213,8 +210,7 @@ class _ExploreViewsState extends State<ExploreViews> {
                                                   SizedBox(
                                                     width: double.infinity,
                                                     child: Text(
-                                                      recommendation[index]
-                                                          .title,
+                                                      everything[index].title,
                                                       maxLines: 2,
                                                       overflow:
                                                           TextOverflow.ellipsis,
@@ -237,8 +233,7 @@ class _ExploreViewsState extends State<ExploreViews> {
                                                         Row(
                                                           children: [
                                                             Text(
-                                                              recommendation[
-                                                                      index]
+                                                              everything[index]
                                                                   .source
                                                                   .name,
                                                             )
@@ -252,7 +247,7 @@ class _ExploreViewsState extends State<ExploreViews> {
                                                               alignment: Alignment
                                                                   .centerRight,
                                                               child: Text(timeago.format(
-                                                                      recommendation[
+                                                                      everything[
                                                                               index]
                                                                           .publishedAt))
                                                                   .boldSized(10)
