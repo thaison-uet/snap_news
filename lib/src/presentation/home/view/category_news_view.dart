@@ -223,60 +223,58 @@ class _CategoryNewsViewState extends State<CategoryNewsView> {
                                                 fit: BoxFit.contain),
                                       ),
                                     ),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 10.w,
-                                        vertical: 8.h,
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            width: 220.w,
-                                            child: Text(
-                                              data[index].title,
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                            ).boldSized(14).colors(
-                                                Guide.isDark(context)
-                                                    ? darkThemeText
-                                                    : colorsBlack),
-                                          ),
-                                          SizedBox(
-                                            width: 210.w,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    SizedBox(
-                                                      width: 110.w,
-                                                      child: Text(
+                                    Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsets.fromLTRB(
+                                            14.w, 8.h, 0.w, 8.h),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              child: Text(
+                                                data[index].title,
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                              ).boldSized(14).colors(
+                                                  Guide.isDark(context)
+                                                      ? darkThemeText
+                                                      : colorsBlack),
+                                            ),
+                                            SizedBox(
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Text(
                                                         data[index].source.name,
-                                                        maxLines: 1,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
+                                                      )
+                                                          .boldSized(10)
+                                                          .colors(colorTextGray)
+                                                    ],
+                                                  ),
+                                                  Expanded(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerRight,
+                                                      child: Text(
+                                                        timeago.format(
+                                                          data[index]
+                                                              .publishedAt,
+                                                        ),
                                                       ).boldSized(10).colors(
                                                           colorTextGray),
-                                                    )
-                                                  ],
-                                                ),
-                                                Text(
-                                                  timeago.format(
-                                                    data[index].publishedAt,
+                                                    ),
                                                   ),
-                                                )
-                                                    .boldSized(10)
-                                                    .colors(colorTextGray),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],

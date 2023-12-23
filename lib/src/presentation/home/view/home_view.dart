@@ -406,22 +406,6 @@ class _HomeViewState extends State<HomeView> {
                                             children: [
                                               Row(
                                                 children: [
-                                                  // CircleAvatar(
-                                                  //   radius: 10.r,
-                                                  //   backgroundColor:
-                                                  //       colorPrimary,
-                                                  //   backgroundImage:
-                                                  //       index + 1 < 5
-                                                  //           ? AssetImage(
-                                                  //               "assets/profile/${index + 1}.jpg",
-                                                  //             )
-                                                  //           : const AssetImage(
-                                                  //               "assets/profile/5.jpg",
-                                                  //             ),
-                                                  // ),
-                                                  // SizedBox(
-                                                  //   width: 7.w,
-                                                  // ),
                                                   Text(
                                                     recommendation[index]
                                                         .source
