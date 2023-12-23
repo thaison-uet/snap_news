@@ -50,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCxO6WXV0fTv9TnLpJA0Yi4NgAPajJsrV0',
-    appId: '1:1026297435106:android:9fa7c61c4082ab2b5ddfbb',
-    messagingSenderId: '1026297435106',
-    projectId: 'somethings-99e98',
-    storageBucket: 'somethings-99e98.appspot.com',
+    apiKey: 'AIzaSyBOK3UJC6fdjzhW2FitYqD9Mg-_elq_5AE',
+    appId: '1:866485015093:android:7332f59836b28a2c69d77c',
+    messagingSenderId: '866485015093',
+    projectId: 'snap-news-e9e57',
+    storageBucket: 'snap-news-e9e57.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCOwtTNxVNOq-EvRRjG4Rh-Fa38YyPpxIM',
-    appId: '1:1026297435106:ios:de9d16359dfaf9985ddfbb',
-    messagingSenderId: '1026297435106',
-    projectId: 'somethings-99e98',
-    storageBucket: 'somethings-99e98.appspot.com',
-    iosBundleId: 'com.thaison.snapnews',
+    apiKey: 'AIzaSyChIxsPCOApKTObtwOo1f2L8oinrIYjriU',
+    appId: '1:866485015093:ios:22b508dd92baec3669d77c',
+    messagingSenderId: '866485015093',
+    projectId: 'snap-news-e9e57',
+    storageBucket: 'snap-news-e9e57.appspot.com',
+    iosBundleId: 'com.sontuyen.snapnews',
   );
 }

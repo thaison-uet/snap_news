@@ -1,7 +1,7 @@
 {
   "file_generated_by": "FlutterFire CLI",
   "purpose": "FirebaseAppID & ProjectID for this Firebase app in this directory",
-  "GOOGLE_APP_ID": "1:1026297435106:ios:de9d16359dfaf9985ddfbb",
-  "FIREBASE_PROJECT_ID": "somethings-99e98",
-  "GCM_SENDER_ID": "1026297435106"
+  "GOOGLE_APP_ID": "1:866485015093:ios:22b508dd92baec3669d77c",
+  "FIREBASE_PROJECT_ID": "snap-news-e9e57",
+  "GCM_SENDER_ID": "866485015093"
 }

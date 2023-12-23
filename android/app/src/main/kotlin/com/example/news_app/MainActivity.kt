@@ -1,4 +1,4 @@
-package com.thaison.snapnews
+package com.sontuyen.snapnews
 
 import io.flutter.embedding.android.FlutterActivity
 

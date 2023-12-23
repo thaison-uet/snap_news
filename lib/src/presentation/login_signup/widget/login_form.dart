@@ -204,6 +204,16 @@ class _LoginFormState extends State<LoginForm> {
             backgroundColor: colorPrimaryOpacity80,
             textColor: Colors.white,
             fontSize: 16.0);
+      } else if (e.code == 'invalid-credential') {
+        print('User not found.');
+        Fluttertoast.showToast(
+            msg: "User not found.",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: colorPrimaryOpacity80,
+            textColor: Colors.white,
+            fontSize: 16.0);
       } else {
         print('${e.message}');
         Fluttertoast.showToast(
