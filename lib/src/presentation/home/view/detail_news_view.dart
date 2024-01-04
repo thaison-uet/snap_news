@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:news_app/src/utils/constants/common_constants.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/core.dart';
@@ -250,6 +251,23 @@ class DetailNewsView extends StatelessWidget {
                               color: transparent),
                         )
                       ]),
+                      SizedBox(height: 28.h),
+                      Container(
+                        alignment: Alignment.centerRight,
+                        padding: const EdgeInsets.only(right: 12),
+                        child: GestureDetector(
+                          child: Image.asset(
+                            "assets/icons/ic_share.png",
+                            width: 20.w,
+                            height: 20.w,
+                            color: colorPrimary,
+                          ),
+                          onTap: () {
+                            Share.share(response[0].url,
+                                subject: 'Look this wonderful news!!');
+                          },
+                        ),
+                      ),
                       SizedBox(
                         height: 10.h,
                       )

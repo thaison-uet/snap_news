@@ -102,6 +102,9 @@ class NavigationViews extends StatelessWidget {
           "assets/icons/ic_category_disabled.png",
           width: 20.w,
           height: 20.w,
+          color: Theme.of(context).brightness == Brightness.dark
+              ? colorWhite
+              : colorsBlack,
         ),
       ),
       PersistentBottomNavBarItem(

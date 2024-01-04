@@ -58,7 +58,7 @@ class _CategoryViewsState extends State<CategoryViews> {
       ),
       body: SafeArea(
           child: Container(
-        color: colorWhite,
+        color: Guide.isDark(context) ? colorsBlack : colorWhite,
         margin:
             EdgeInsets.only(top: 5.h, left: 15.w, right: 15.w, bottom: 10.h),
         padding: EdgeInsets.only(top: 10.h, bottom: 24.h),
